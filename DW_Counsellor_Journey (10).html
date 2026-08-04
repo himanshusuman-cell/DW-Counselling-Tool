@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Defence Wallah — Counsellor Journey</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#eef1ec;padding:16px;color:#141a16;font-size:14px}
+.wrap{max-width:880px;margin:0 auto}
+
+/* HEADER */
+.header{background:#13301c;border-radius:12px;padding:16px 20px 12px;margin-bottom:10px}
+.h-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:10px;flex-wrap:wrap}
+.h-left{display:flex;align-items:center;gap:10px}
+.h-logo{background:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#13301c;flex-shrink:0}
+.h-brand{font-size:9px;color:#8fc177;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px}
+.h-title{font-size:18px;font-weight:700;color:#fff}
+.mission{background:#b8860b;border-radius:8px;padding:6px 14px;text-align:center;flex-shrink:0}
+.m-top{font-size:8px;color:#ffeab8;text-transform:uppercase;letter-spacing:.08em}
+.m-main{font-size:14px;font-weight:700;color:#fff}
+.flow-bar{display:flex;align-items:center;gap:8px;padding-top:8px;border-top:1px solid #27512f;flex-wrap:wrap}
+.fb-step{display:flex;align-items:center;gap:5px;font-size:11px;color:#8fc177;font-weight:600}
+.fb-arr{color:#3d6b45;font-size:14px}
+
+/* STICKY NAV */
+#stickyNav{position:sticky;top:0;z-index:50;background:rgba(244,245,241,.96);backdrop-filter:blur(6px);padding:8px 0;margin-bottom:8px;border-bottom:1px solid #e0ddd6;display:flex;gap:6px;overflow-x:auto}
+#stickyNav button{white-space:nowrap;border:1.5px solid #ddd;background:#fff;border-radius:30px;padding:5px 13px;font-size:10.5px;font-weight:700;color:#555;cursor:pointer;font-family:inherit}
+#stickyNav button:hover{border-color:#2c5e1a;color:#2c5e1a}
+#stickyNav button.on{background:#2c5e1a;border-color:#2c5e1a;color:#fff}
+
+/* JOURNEY RAIL */
+.journey{position:relative;padding-left:34px;margin-top:4px}
+.jl-track{position:absolute;left:11px;top:0;bottom:0;width:2px;background:#e0ddd6}
+.step-row{position:relative;margin-bottom:10px;scroll-margin-top:56px}
+.step-dot{position:absolute;left:-34px;top:14px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;z-index:1}
+.d1{background:#13301c}.d2{background:#2c5e1a}.d3{background:#4f9130}.d4{background:#123a63}.d5{background:#0f6e56}.d6{background:#b8860b}.d7{background:#b8860b}.d8{background:#8c3b1a}
+.scard{background:#fff;border:1px solid #e8e5df;border-radius:12px;padding:12px 14px}
+.shead{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;cursor:pointer;user-select:none}
+.schev{margin-left:8px;font-size:15px;color:#bbb;transition:transform .25s;flex-shrink:0}
+.scard.closed .schev{transform:rotate(-90deg)}
+.scard.closed .shead{margin-bottom:0}
+.sbodywrap{overflow:hidden;transition:max-height .3s ease,opacity .25s ease;max-height:6000px;opacity:1}
+.scard.closed .sbodywrap{max-height:0;opacity:0}
+.scard.done .step-dot,.step-row.done .step-dot{box-shadow:0 0 0 3px rgba(79,145,48,.25)}
+.sico{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.si1{background:#e3ece0}.si2{background:#e6f2dc}.si3{background:#eaf5e2}.si4{background:#e4edf7}.si5{background:#dff3ec}.si6{background:#fdf3dc}.si7{background:#faeae2}
+.smom{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#999;margin-bottom:1px}
+.sttl{font-size:15px;font-weight:800}
+.vtag{display:inline-block;background:#eaf3de;border-radius:30px;padding:2px 8px;font-size:9px;color:#27500a;font-weight:700;margin:1px 2px 0 0}
+.sbody{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.sbody{grid-template-columns:1fr}}
+.ch{font-size:10.5px;color:#7a8a5f;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;font-weight:800}
+.dl{list-style:none}
+.dl li{font-size:12.5px;color:#2b2b2b;line-height:1.65;padding-left:12px;position:relative}
+.dl li::before{content:"›";position:absolute;left:0;color:#bbb;font-size:13px;line-height:1.35}
+.kq{background:#f7f6f0;padding:5px 8px;font-size:10px;color:#333;line-height:1.4;margin-bottom:4px;font-style:italic;border-left:3px solid #2c5e1a;border-radius:0 6px 6px 0}
+.tip{border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.55;margin-top:8px}
+.tip-green{background:#eaf3de;color:#27500a}
+.tip-blue{background:#e6f1fb;color:#0c447c}
+.tip-amber{background:#fff8ee;color:#633806;border:1px solid #fac775}
+
+/* FORM */
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-top:8px}
+.dobgrid{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:6px}
+.dobgrid select{padding:7px 6px}
+.fl{font-size:9px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;display:block}
+input,select{width:100%;padding:7px 9px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:#1a1a1a}
+input:focus,select:focus{outline:none;border-color:#4f9130;box-shadow:0 0 0 3px rgba(79,145,48,.14)}
+select:disabled{background:#f1f2ee;color:#93998f}
+.gobtn{margin-top:10px;padding:10px 22px;border:none;border-radius:9px;background:linear-gradient(135deg,#2c5e1a,#4f9130);color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 3px 10px rgba(44,94,26,.28)}
+.gobtn:active{transform:translateY(1px)}
+.hintline{font-size:9.5px;color:#8a6100;margin-top:3px}
+
+/* GENERATED */
+.ph{background:#f7f6f0;border:1px dashed #d5d2ca;border-radius:10px;padding:16px;text-align:center;font-size:11px;color:#999}
+.resband{background:linear-gradient(120deg,#0d2213,#2c5e1a 50%,#5aa337);border-radius:14px;padding:18px 20px;color:#fff;margin-bottom:10px;box-shadow:0 6px 20px rgba(20,50,25,.28)}
+.rb-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#a9d193}
+.projban{display:flex;align-items:center;gap:14px;background:linear-gradient(120deg,#b8860b,#e5b445);color:#3a2a05;border-radius:14px;padding:15px 18px;margin-bottom:10px;box-shadow:0 5px 16px rgba(184,134,11,.3)}
+.projban .pb-ic{font-size:34px;flex-shrink:0}
+.projban .pb-t{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;opacity:.8}
+.projban .pb-m{font-size:20px;font-weight:900;line-height:1.15;margin:2px 0}
+.projban .pb-s{font-size:12.5px;line-height:1.5}
+.projban b{color:#1a1305}
+/* ===== COLOUR DESIGN SYSTEM (screenshot-inspired) ===== */
+.statband{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));background:linear-gradient(120deg,#a01b2e,#c22740);border-radius:12px;overflow:hidden;margin:10px 0;box-shadow:0 5px 16px rgba(160,27,46,.3)}
+.statband div{padding:14px 10px;text-align:center;color:#fff;border-right:1px solid rgba(255,255,255,.18)}
+.statband div:last-child{border-right:none}
+.statband b{display:block;font-size:23px;font-weight:900;line-height:1.1}
+.statband span{font-size:9px;text-transform:uppercase;letter-spacing:.1em;opacity:.85}
+.tbl-navy{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(19,42,74,.12)}
+.tbl-navy th{background:#132a4a;color:#fff;font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;padding:9px 10px;text-align:left;border:none}
+.tbl-navy td{padding:9px 10px;border-bottom:1px solid #e8ebf0;font-size:12.5px}
+.tbl-navy tr:nth-child(even) td{background:#f6f8fb}
+.tbl-navy td.num{font-weight:900;color:#1a5bb8}
+.tbl-navy td.hrs{font-weight:900;background:#fdf6e3!important;color:#1a1a1a}
+.tbl-navy tr.total td{background:#132a4a!important;color:#fff;font-weight:900;border:none}
+.tbl-navy tr.total td.num,.tbl-navy tr.total td.hrs{color:#f0c545;background:#132a4a!important}
+.tbl-red{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(160,27,46,.12)}
+.tbl-red th{background:#c22740;color:#fff;font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;padding:9px 10px;text-align:left;border:none}
+.tbl-red td{padding:9px 10px;border-bottom:1px solid #f0e4e6;font-size:12.5px}
+.tbl-red tr:nth-child(even) td{background:#fbf6f7}
+.tbl-red td.num{font-weight:900;color:#c22740}
+.feat3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:10px}
+.fcard{background:#faf9f5;border:1px solid #ece9e0;border-radius:12px;padding:13px 15px}
+.fcard .ft{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.07em;padding-bottom:8px;border-bottom:2px solid #eee;margin-bottom:9px}
+.fcard .ft.r{color:#c22740;border-color:#f0d4d8}
+.fcard .ft.n{color:#132a4a;border-color:#d5dce8}
+.fcard .ft.g{color:#2c5e1a;border-color:#d8e6d0}
+.fcard ul{list-style:none;margin:0;padding:0}
+.fcard li{font-size:12px;color:#333;line-height:1.6;padding:3px 0 3px 13px;position:relative}
+.fcard li::before{content:"›";position:absolute;left:0;color:#c9a25a;font-weight:800}
+.sechead{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:900;color:#132a4a;text-transform:uppercase;letter-spacing:.05em;margin-top:16px;margin-bottom:2px}
+.sechead::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,#c9a25a,transparent)}
+/* results snapshot slicer */
+.rtabs{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.rtabs button{border:1.5px solid #ddd;background:#fff;border-radius:30px;padding:6px 15px;font-size:11.5px;font-weight:800;color:#555;cursor:pointer;font-family:inherit}
+.rtabs button.on{background:#c22740;border-color:#c22740;color:#fff}
+.rkpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px;margin:10px 0}
+.rk{border-radius:13px;padding:16px 12px;text-align:center;border:1.5px solid #e5e2da;background:#fff}
+.rk b{display:block;font-size:31px;font-weight:900;line-height:1.1}
+.rk span{font-size:11px;color:#555;font-weight:600}
+.rk-navy{background:#132a4a;border-color:#132a4a}.rk-navy b,.rk-navy span{color:#fff}
+.rk-green{border-color:#9dc79a}.rk-green b{color:#2c6e2a}
+.rk-red{border-color:#e2a9b1}.rk-red b{color:#c22740}
+.rk-gold{border-color:#dcc08a}.rk-gold b{color:#a67c1b}
+.pinline{background:#e8f1fb;color:#0c447c;border-radius:9px;padding:9px 13px;font-size:12.5px;line-height:1.55;margin:8px 0}
+.rpanel{display:none}.rpanel.on{display:block}
+/* countdown + whatsapp */
+.count{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.count div{background:rgba(0,0,0,.14);border-radius:9px;padding:7px 13px;text-align:center}
+.count b{display:block;font-size:22px;font-weight:900;line-height:1}
+.count span{font-size:9px;text-transform:uppercase;letter-spacing:.07em;opacity:.8}
+.pmbar{position:sticky;top:44px;z-index:49;display:flex;gap:8px;justify-content:flex-end;padding:4px 0 8px}
+.wabtn{border:none;background:#1fa855;color:#fff;border-radius:30px;padding:6px 15px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
+.rb-name{font-size:27px;font-weight:900;line-height:1.12;margin:3px 0}
+.rb-tag{font-size:12.5px;color:#e3f2d8}
+.rbst{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:7px;margin-top:11px}
+.rbst div{background:rgba(255,255,255,.14);border-radius:8px;padding:7px 9px}
+.rbst b{display:block;font-size:16px;font-weight:800}
+.rbst span{font-size:9.5px;opacity:.9;text-transform:uppercase;letter-spacing:.05em}
+
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:7px}
+.chip{border-radius:9px;padding:8px 11px;border-left:5px solid}
+.chip b{display:block;font-size:13px;font-weight:800}
+.chip span{font-size:10.5px;opacity:.9}
+.chip i{display:block;font-size:9px;font-style:normal;font-weight:700;color:#8a6100;margin-top:2px}
+.c-army{background:#eef6e9;border-color:#4f9130}
+.c-navy{background:#e9f0f8;border-color:#123a63}
+.c-af{background:#e6f4f8;border-color:#0e6b86}
+.c-cg{background:#fdf3e2;border-color:#b8860b}
+.c-capf{background:#fdf3e2;border-color:#b8860b}
+
+.road{display:grid;gap:0;margin-top:4px}
+.rstep{display:grid;grid-template-columns:42px 1fr;gap:10px;position:relative;padding-bottom:12px}
+.rstep:last-child{padding-bottom:0}
+.rstep::before{content:"";position:absolute;left:20px;top:38px;bottom:-2px;width:2px;background:#dde5d8}
+.rstep:last-child::before{display:none}
+.rdot{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;color:#fff;font-size:17px}
+.rbody b{display:block;font-size:12px;font-weight:800}
+.rbody .yr{display:inline-block;background:#fff8ee;color:#633806;font-size:8.5px;font-weight:800;padding:1px 7px;border-radius:20px;margin-left:5px;vertical-align:1px}
+.rbody p{font-size:10.5px;color:#555;line-height:1.5;margin-top:2px}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:8px;margin-bottom:8px}
+.kpis div{background:linear-gradient(130deg,#123a63,#1c5a93);color:#fff;border-radius:10px;padding:10px 12px}
+.kpis b{display:block;font-size:20px;font-weight:800;line-height:1.1}
+.kpis span{font-size:9px;opacity:.88}
+.funnel{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:6px;margin-top:9px}
+.funnel div{background:#f7faf6;border:1px solid #e3ece0;border-radius:9px;padding:8px 6px;text-align:center}
+.funnel b{display:block;font-size:14px;font-weight:800;color:#2c5e1a}
+.funnel span{font-size:8.5px;color:#666}
+
+table{width:100%;border-collapse:collapse;font-size:10.5px;margin-top:8px}
+th,td{border:1px solid #e6e3dc;padding:5px 7px;text-align:left}
+th{background:#f3f5f0;font-weight:700;color:#555;font-size:9px;text-transform:uppercase;letter-spacing:.04em}
+td.big{font-weight:800;color:#2c5e1a}
+details{margin-top:9px;border-top:1px dashed #e0ddd6;padding-top:8px}
+summary{cursor:pointer;font-weight:700;font-size:10.5px;color:#2c5e1a;outline:none}
+
+.feebox{background:linear-gradient(120deg,#123a63,#1c5a93);color:#fff;border-radius:11px;padding:14px 16px}
+.fb-p{font-size:15px;font-weight:800}
+.fb-m{font-size:10px;opacity:.85;margin-top:1px}
+.fb-a{font-size:29px;font-weight:800;margin-top:9px;line-height:1}
+.fb-a small{font-size:10.5px;font-weight:600;opacity:.85}
+.inst{display:grid;grid-template-columns:repeat(auto-fit,minmax(102px,1fr));gap:7px;margin-top:10px}
+.inst div{background:rgba(255,255,255,.15);border-radius:8px;padding:7px 9px}
+.inst b{display:block;font-size:13px;font-weight:800}
+.inst span{font-size:8.5px;opacity:.85}
+.altbox{background:#f8f9f6;border:1.5px dashed #ddd;border-radius:10px;padding:9px 12px;margin-top:8px;font-size:10.5px}
+.altbox b{color:#123a63}
+
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:7px}
+.grid4 div{background:#f7faf6;border:1px solid #e3ece0;border-radius:9px;padding:8px 10px}
+.grid4 b{display:block;font-size:11px;color:#2c5e1a}
+.grid4 span{font-size:9.5px;color:#666}
+.stars{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:8px}
+.stars div{background:linear-gradient(120deg,#b8860b,#e5b445);color:#3a2a05;border-radius:10px;padding:10px 13px}
+.stars b{display:block;font-size:12.5px;font-weight:900}
+.stars span{font-size:10px}
+.golden{background:#13301c;border-radius:11px;padding:14px 16px;color:#fff;text-align:center;margin-top:9px}
+.golden .g-row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:12px;font-weight:700;color:#a9d193}
+.golden .g-row span{color:#4f9130}
+.golden p{font-size:10.5px;color:#cfe0c6;margin-top:7px;line-height:1.5}
+.prbar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.prbar button{padding:8px 16px;border-radius:8px;border:1.5px solid #ddd;background:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:#555}
+.hide{display:none}
+@media print{#stickyNav,.prbar,.gobtn,.noprint{display:none!important}body{background:#fff;padding:0}details{display:none}.scard{break-inside:avoid}.scard.closed .sbodywrap{max-height:none!important;opacity:1!important}.scard.closed .shead{margin-bottom:8px}.schev{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <div class="h-top">
+    <div class="h-left">
+      <div class="h-logo">DW</div>
+      <div><div class="h-brand">Defence Wallah · by Physics Wallah</div><div class="h-title">Counsellor Journey</div></div>
+    </div>
+    <div class="mission"><div class="m-top">Admissions</div><div class="m-main">8527060077</div></div>
+  </div>
+  <div class="flow-bar">
+    <div class="fb-step">🤝 Trust</div><div class="fb-arr">→</div>
+    <div class="fb-step">🔍 Profile</div><div class="fb-arr">→</div>
+    <div class="fb-step">🩺 Diagnose</div><div class="fb-arr">→</div>
+    <div class="fb-step">🎯 Reality</div><div class="fb-arr">→</div>
+    <div class="fb-step">🗺️ Plan</div><div class="fb-arr">→</div>
+    <div class="fb-step">💡 Fit</div><div class="fb-arr">→</div>
+    <div class="fb-step">💼 Close</div>
+  </div>
+</div>
+
+<div id="stickyNav">
+  <button class="on" onclick="jump(1)">1 · Foundation</button>
+  <button onclick="jump(2)">2 · Profile</button>
+  <button onclick="jump(3)">3 · Diagnosis</button>
+  <button onclick="jump(4)">4 · Reality Check</button>
+  <button onclick="jump(5)">5 · The Plan</button>
+  <button onclick="jump(6)">6 · The Fit</button>
+  <button onclick="jump(7)">7 · Results</button>
+  <button onclick="jump(8)">8 · Close</button>
+</div>
+
+<div class="pmbar noprint">
+  <button class="wabtn" onclick="waSummary()" title="Copy a WhatsApp-ready summary of this counselling plan">📋 Copy Plan for WhatsApp</button>
+</div>
+
+<div class="journey"><div class="jl-track"></div>
+
+<!-- ========== STEP 1 ========== -->
+<div class="step-row" id="s1"><div class="step-dot d1">1</div>
+ <div class="scard" id="c1">
+  <div class="shead" onclick="tog(1)"><div class="sico si1">🤝</div><div><div class="smom">Foundation</div><div class="sttl">Build trust before anything else</div></div>
+   <div style="margin-left:auto"><span class="vtag">Empathy</span><span class="vtag">Presence</span></div><span class="schev">⌄</span></div>
+  <div class="sbodywrap">
+  <div class="sbody">
+   <div><div class="ch">What to do</div><ul class="dl">
+    <li>Warm, unhurried welcome — no pitch in the first five minutes</li>
+    <li>Ask the student directly, not the parent, why defence</li>
+    <li>Let the parent voice the fear they came with</li>
+    <li>Note the answer: passion, family background, or "no other option"</li></ul></div>
+   <div><div class="ch">Opening words</div>
+    <div class="kq">"Defence mein jaane ka socha kab se hai — kisne inspire kiya?"</div>
+    <div class="kq">"Aaj hum kuch bechne nahi aaye. Sirf yeh samajhne aaye hain ki raasta kya hai."</div>
+    <div class="kq">"Aapke ghar mein kisi ne services join ki hai?"</div></div>
+  </div>
+  <div class="tip tip-green">💡 Parents rarely say it out loud, but the real question in their mind is safety and job security. Let them ask it. Answer with the structure of the exam and the officer career, not with emotion.</div>
+  </div>
+ </div>
+</div>
+
+<!-- ========== STEP 2 ========== -->
+<div class="step-row" id="s2"><div class="step-dot d2">2</div>
+ <div class="scard" id="c2">
+  <div class="shead" onclick="tog(2)"><div class="sico si2">🔍</div><div><div class="smom">Context</div><div class="sttl">Student profile — five details decide everything</div></div>
+   <div style="margin-left:auto"><span class="vtag">Clarity</span><span class="vtag">No assumptions</span></div><span class="schev">⌄</span></div>
+  <div class="sbodywrap">
+  <div class="sbody">
+   <div><div class="ch">Collect (enter below)</div><ul class="dl">
+    <li>Date of birth — exact, from the 10th marksheet</li>
+    <li>Class currently studying / completed</li>
+    <li>Class 12 stream — decides Navy &amp; Air Force wings</li>
+    <li>Gender — several entries are male-only</li>
+    <li>Preferred centre</li></ul></div>
+   <div><div class="ch">Also understand (ask, don't type)</div><ul class="dl">
+    <li>Is the student medically fit? Spectacles, height, past surgery</li>
+    <li>NCC certificate, sports or ground activity background</li>
+    <li>Is the family ready for a hostel / outstation centre?</li>
+    <li>Is this a first attempt or a repeat?</li></ul></div>
+  </div>
+  <div class="tip tip-amber">⚠ Never estimate age. NDA eligibility is determined by the official Date of Birth window for the selected notification, not by age in years — every NDA attempt has its own DOB window. Even a one-day difference in Date of Birth can change eligibility. After generating, Step 3 shows the exact window for each attempt.</div>
+
+  <div class="formgrid">
+   <div><label class="fl">Student Name</label><input id="f_name" placeholder="Name"></div>
+   <div><label class="fl">Date of Birth</label>
+    <div class="dobgrid">
+     <select id="f_dd" aria-label="Day"><option value="">Day</option></select>
+     <select id="f_mm" aria-label="Month"><option value="">Month</option></select>
+     <select id="f_yy" aria-label="Year"><option value="">Year</option></select>
+    </div></div>
+   <div><label class="fl">Gender</label><select id="f_gen"><option value="M">Male</option><option value="F">Female</option></select></div>
+   <div><label class="fl">Studying / Completed</label>
+    <select id="f_qual" onchange="autoS()">
+     <option value="10">Class 10 (Appearing / Passed)</option>
+     <option value="11">Currently in Class 11</option>
+     <option value="12app" selected>Currently in Class 12</option>
+     <option value="12pass">Class 12 Passed</option>
+     <option value="uggoing">Graduation Pursuing</option>
+     <option value="grad">Graduate</option>
+     <option value="engg">Engineering Degree (BE/B.Tech)</option>
+    </select></div>
+   <div><label class="fl">Class 12 Stream</label>
+    <select id="f_str"><option value="pcm" selected>PCM (with Maths)</option><option value="pcb">PCB (no Maths)</option>
+     <option value="com">Commerce</option><option value="arts">Arts</option><option value="na">Not Applicable</option></select>
+    <div class="hintline" id="strHint"></div></div>
+   <div><label class="fl">Centre</label>
+    <select id="f_ctr"><option value="lucknow">Lucknow</option><option value="dehradun">Dehradun</option>
+     <option value="sikar">Sikar</option><option value="patna">Patna</option><option value="indore">Indore</option>
+     <option value="pune">Pune</option><option value="delhi">Delhi</option></select></div>
+  </div>
+  <button class="gobtn" onclick="run()">Generate Steps 3 – 6 →</button>
+  </div>
+ </div>
+</div>
+
+<!-- ========== STEP 3 ========== -->
+<div class="step-row" id="s3"><div class="step-dot d3">3</div>
+ <div class="scard closed" id="c3">
+  <div class="shead" onclick="tog(3)"><div class="sico si3">🩺</div><div><div class="smom">Diagnosis</div><div class="sttl">Which entries actually open for this student</div></div>
+   <div style="margin-left:auto"><span class="vtag">Honesty</span><span class="vtag">Rule-based</span></div><span class="schev">⌄</span></div>
+  <div class="sbodywrap"><div id="out3"><div class="ph">Fill Step 2 and press Generate.</div></div></div>
+ </div>
+</div>
+
+<!-- ========== STEP 4 ========== -->
+<div class="step-row" id="s4"><div class="step-dot d4">4</div>
+ <div class="scard closed" id="c4">
+  <div class="shead" onclick="tog(4)"><div class="sico si4">🎯</div><div><div class="smom">Reality check</div><div class="sttl">Cutoffs and the real competition</div></div>
+   <div style="margin-left:auto"><span class="vtag">Transparency</span><span class="vtag">Realism</span></div><span class="schev">⌄</span></div>
+  <div class="sbodywrap"><div id="out4"><div class="ph">Fill Step 2 and press Generate.</div></div></div>
+ </div>
+</div>
+
+<!-- ========== STEP 5 ========== -->
+<div class="step-row" id="s5"><div class="step-dot d5">5</div>
+ <div class="scard closed" id="c5">
+  <div class="shead" onclick="tog(5)"><div class="sico si5">🗺️</div><div><div class="smom">The plan</div><div class="sttl">Aspirant to Officer — the full road</div></div>
+   <div style="margin-left:auto"><span class="vtag">Hope</span><span class="vtag">Direction</span></div><span class="schev">⌄</span></div>
+  <div class="sbodywrap"><div id="out5"><div class="ph">Fill Step 2 and press Generate.</div></div></div>
+ </div>
+</div>
+
+<!-- ========== STEP 6 ========== -->
+<div class="step-row" id="s6"><div class="step-dot d6">6</div>
+ <div class="scard closed" id="c6">
+  <div class="shead" onclick="tog(6)"><div class="sico si6">💡</div><div><div class="smom">The fit</div><div class="sttl">Defence Wallah programme, fee and proof</div></div>
+   <div style="margin-left:auto"><span class="vtag">Value over pitch</span></div><span class="schev">⌄</span></div>
+  <div class="sbodywrap"><div id="out6"><div class="ph">Fill Step 2 and press Generate.</div></div></div>
+ </div>
+</div>
+
+<!-- ========== STEP 7 · RESULTS (PROOF) ========== -->
+<div class="step-row" id="s7"><div class="step-dot d7">🏆</div>
+ <div class="scard closed" id="c7">
+  <div class="shead" onclick="tog(7)"><div class="sico si6">🏆</div><div><div class="smom">Proof</div><div class="sttl">DW Results Snapshot — real student selections</div></div>
+   <div style="margin-left:auto"><span class="vtag">Real numbers</span><span class="vtag">Slice the data</span></div><span class="schev">⌄</span></div>
+  <div class="sbodywrap"><div id="resOut"></div></div>
+ </div>
+</div>
+
+<!-- ========== STEP 7 ========== -->
+<div class="step-row" id="s8"><div class="step-dot d8">8</div>
+ <div class="scard closed" id="c8">
+  <div class="shead" onclick="tog(8)"><div class="sico si7">💼</div><div><div class="smom">Commitment</div><div class="sttl">Fee discussion and closure</div></div>
+   <div style="margin-left:auto"><span class="vtag">Confidence</span><span class="vtag">No pressure</span></div><span class="schev">⌄</span></div>
+  <div class="sbodywrap">
+  <div class="sbody">
+   <div><div class="ch">How to close</div><ul class="dl">
+    <li>State the fee plainly — registration, security, books and infrastructure are already inside it</li>
+    <li>Break it into the installment plan before they ask</li>
+    <li>Mention no-cost EMI only after the value is understood</li>
+    <li>Help them decide — never push</li></ul></div>
+   <div><div class="ch">Mindset</div>
+    <div class="kq">"Fee baad mein. Pehle yeh clear ho jaaye ki raasta sahi hai."</div>
+    <div class="kq">"Aap ek attempt nahi, ek career decide kar rahe hain."</div></div>
+  </div>
+  <div class="ch" style="margin-top:10px">Common objections — and the honest answer</div>
+  <table><tr><th>Objection</th><th>What to say</th></tr>
+   <tr><td>"SSB toh clear hi nahi hoti"</td><td>SSB carries 900 marks — exactly the same as the written paper. It is trainable. The 14-day offline SSB programme runs at Lucknow and Dehradun, conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.</td></tr>
+   <tr><td>"Medical mein reject ho gaya toh?"</td><td>Get the medical checked early, before enrollment. Height, vision and past surgery are the usual issues. Knowing early protects the family from spending two years on a closed door.</td></tr>
+   <tr><td>"Fee zyada lag rahi hai"</td><td>Show the installment split and the no-cost EMI. Then show the hours: 1600+ teaching hours in the 18-month programme, 600+ in the 6-month one.</td></tr>
+   <tr><td>"Agar select nahi hua toh degree?"</td><td>NDA cadets receive a B.A., B.Sc. or B.Tech degree at Khadakwasla. CDS is a graduate entry, so the degree is already in hand.</td></tr>
+  </table>
+  <div class="golden">
+   <div class="g-row">❤️ Diagnose <span>→</span> 🗺 Guide <span>→</span> 📍 Plan <span>→</span> ✨ Recommend Defence Wallah</div>
+   <p>When a family understands the road, admission stops being a sale.<br>We don't just counsel — we plan a young person's career.</p>
+  </div>
+  <div class="prbar noprint"><button onclick="window.print()">🖨 Print / Save PDF</button><button onclick="reset()">↺ New Student</button></div>
+  </div>
+ </div>
+</div>
+
+</div><!-- /journey -->
+</div><!-- /wrap -->
+
+<script>
+/* ================= DATA — Defence Wallah documents only ================= */
+const CTR={
+ lucknow:{n:"Lucknow – Alambagh",ssb:1,shaurya:[64000,80500],foundation:[138000,158500],cds:[58500,75000],param:0},
+ dehradun:{n:"Dehradun",ssb:1,shaurya:[64000,80500],foundation:[138000,158500],cds:[58500,75000],param:0},
+ sikar:{n:"Sikar – Piprali Road",ssb:0,ground:1,shaurya:[60000,0],foundation:[123000,0],cds:[56000,0],param:42500},
+ patna:{n:"Patna – Boring Road",ssb:0,shaurya:[60000,0],foundation:[117500,0],cds:[60000,0],param:0},
+ indore:{n:"Indore – MG Road",ssb:0,shaurya:[58500,0],foundation:[113500,0],cds:[56000,0],param:0},
+ pune:{n:"Pune – FC Road",ssb:0,shaurya:[65000,0],foundation:[131500,0],cds:[60000,0],param:0},
+ delhi:{n:"Delhi – Janakpuri",ssb:0,shaurya:[61500,0],foundation:[117500,0],cds:[58000,0],param:0}
+};
+const NDA_CUT=[["NDA I · 2025",334,699,"25%"],["NDA II · 2024",305,673,"25%"],["NDA I · 2024",291,654,"20%"],
+ ["NDA II · 2023",292,656,"20%"],["NDA I · 2023",301,664,"25%"],["NDA II · 2022",316,678,"20%"],["NDA I · 2022",360,720,"25%"]];
+const CDS_CUT=[["CDS I · 2025","IMA",120,243],["CDS I · 2025","INA",104,230],["CDS I · 2025","AFA",128,253],
+ ["CDS I · 2025","OTA (Men)",81,163],["CDS I · 2025","OTA (Women)",81,171],
+ ["CDS I · 2024","IMA",120,244],["CDS I · 2024","INA",100,230],["CDS I · 2024","AFA",128,250],["CDS I · 2024","OTA",87,168],
+ ["CDS II · 2024","IMA",117,244],["CDS II · 2024","INA",90,230],["CDS II · 2024","AFA",126,250],["CDS II · 2024","OTA (Men)",81,161],
+ ["CDS I · 2023","IMA",132,257],["CDS I · 2023","INA",122,247],["CDS I · 2023","AFA",142,266],["CDS I · 2023","OTA (Men)",101,181],
+ ["CDS II · 2023","IMA",127,250],["CDS II · 2023","INA",110,237],["CDS II · 2023","AFA",136,259],["CDS II · 2023","OTA (Men)",104,185],
+ ["CDS I · 2022","IMA",136,258],["CDS I · 2022","INA",128,256],["CDS I · 2022","AFA",147,269]];
+const INR=v=>"₹"+Number(Math.round(v)).toLocaleString("en-IN");
+const ESC=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let S={};
+
+function tog(n){
+ const card=document.getElementById("c"+n);if(!card)return;
+ const closing=!card.classList.contains("closed");
+ card.classList.toggle("closed");
+ document.querySelectorAll("#stickyNav button").forEach((b,i)=>b.classList.toggle("on",i===n-1&&!closing));
+}
+function openStep(n){const c=document.getElementById("c"+n);if(c)c.classList.remove("closed");
+ document.querySelectorAll("#stickyNav button").forEach((b,i)=>b.classList.toggle("on",i===n-1));}
+function jump(n){openStep(n);const t=document.getElementById("s"+n);if(t&&t.scrollIntoView)t.scrollIntoView({behavior:"smooth",block:"start"});
+ document.querySelectorAll("#stickyNav button").forEach((b,i)=>b.classList.toggle("on",i===n-1));}
+function autoS(){
+ const q=document.getElementById("f_qual").value,st=document.getElementById("f_str"),hint=document.getElementById("strHint");
+ if(q==="10"){st.value="na";st.disabled=true;hint.textContent="Stream is chosen in Class 11 — it decides the Navy & Air Force wings.";}
+ else if(q==="11"){st.disabled=false;if(st.value==="na")st.value="pcm";hint.textContent="Confirm the Class 11 stream — PCM keeps all three NDA wings open.";}
+ else{st.disabled=false;if(st.value==="na")st.value="pcm";hint.textContent="";}
+}
+function reset(){["out3","out4","out5","out6"].forEach(i=>document.getElementById(i).innerHTML='<div class="ph">Fill Step 2 and press Generate.</div>');
+ ["3","4","5","6","7","8"].forEach(n=>{const c=document.getElementById("c"+n);c.classList.add("closed");c.classList.remove("done");});
+ document.getElementById("c1").classList.remove("closed");document.getElementById("c2").classList.remove("closed");
+ document.getElementById("f_name").value="";document.getElementById("f_dd").value="";document.getElementById("f_mm").value="";document.getElementById("f_yy").value="";jump(2);}
+function agef(d,r){return (r-d)/(365.25*864e5)}
+function ageY(d,r){let a=r.getFullYear()-d.getFullYear();const m=r.getMonth()-d.getMonth();if(m<0||(m===0&&r.getDate()<d.getDate()))a--;return a}
+function dmy(d){const p=n=>String(n).padStart(2,"0");return p(d.getDate())+"-"+p(d.getMonth()+1)+"-"+d.getFullYear()}
+const MONTHS_L=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function dLong(d){return String(d.getDate()).padStart(2,"0")+" "+MONTHS_L[d.getMonth()]+" "+d.getFullYear()}
+
+function run(){
+ const dd=document.getElementById("f_dd").value,mm=document.getElementById("f_mm").value,yy=document.getElementById("f_yy").value;
+ if(!dd||!mm||!yy){alert("Date of Birth is required — please select Day, Month and Year. Every age rule depends on it.");return}
+ const dob=new Date(+yy,+mm-1,+dd);
+ if(dob.getDate()!=+dd||dob.getMonth()!=+mm-1){alert("That date does not exist (e.g. 31 in a 30-day month, or 29 Feb in a non-leap year). Please re-check the Day and Month.");return}
+ const now=new Date();
+ S={name:(document.getElementById("f_name").value||"Student").trim(),dob:dob,a:agef(dob,now),ay:ageY(dob,now),
+    gen:document.getElementById("f_gen").value,q:document.getElementById("f_qual").value,
+    st:document.getElementById("f_str").value,ck:document.getElementById("f_ctr").value};
+ S.C=CTR[S.ck];
+ S.c10=(S.q==="10"); S.c11=(S.q==="11");
+ S.mat=(S.st==="pcm"); S.phy=(S.st==="pcm"||S.st==="pcb");
+ S.is12=(S.q==="12pass"); S.is12a=(S.q==="12app");
+ S.grad=(S.q==="grad"||S.q==="engg"); S.engg=(S.q==="engg"); S.ug=(S.q==="uggoing");
+ S.has12=(S.is12||S.grad||S.ug);
+ const w=(a,b)=>dob>=new Date(a)&&dob<=new Date(b);
+
+ /* ===== NDA NOTIFICATION DATA LAYER =====
+    Each NDA notification carries its OWN official DOB window. Pattern (per current UPSC notifications):
+      NDA 1 of year Y (April exam)     → born 01 Jul (Y−19) to 01 Jul (Y−16)
+      NDA 2 of year Y (September exam) → born 01 Jan (Y−18) to 01 Jan (Y−15)
+    Verified against: NDA II 2026 → 01 Jan 2008 – 01 Jan 2011 · NDA I 2027 → 01 Jul 2008 – 01 Jul 2011.
+    To adjust a future notification, edit NDA_OVERRIDES only — the logic never changes. */
+ const NDA_OVERRIDES={ /* "NDA 2 · 2026":{from:new Date(2008,0,1),to:new Date(2011,0,1)} — add per official notification if it deviates */ };
+ function ndaCycles(){
+   const list=[]; const y0=now.getFullYear();
+   for(let y=y0;y<=y0+7;y++){
+     list.push({name:"NDA 1 · "+y,exam:new Date(y,3,12),from:new Date(y-19,6,1),to:new Date(y-16,6,1)});
+     list.push({name:"NDA 2 · "+y,exam:new Date(y,8,13),from:new Date(y-18,0,1),to:new Date(y-15,0,1)});
+   }
+   list.forEach(c=>{const o=NDA_OVERRIDES[c.name];if(o){if(o.from)c.from=o.from;if(o.to)c.to=o.to;if(o.exam)c.exam=o.exam;}});
+   return list.filter(c=>c.exam>now);
+ }
+ // Academic readiness: the first calendar year in which the student is in Class 12 (appearing).
+ let readyFrom=now; // 12th appearing/passed and above can sit the next cycle
+ if(S.c11) readyFrom=new Date(now.getFullYear()+1,0,1);
+ if(S.c10) readyFrom=new Date(now.getFullYear()+2,0,1);
+ const dobFit=c=>dob>=c.from&&dob<=c.to;
+ // All future attempts where BOTH the DOB window and academic readiness are satisfied.
+ S.attempts=ndaCycles().filter(c=>dobFit(c)&&c.exam>=readyFrom);
+ // Full upcoming notification list + this student's readiness, for the per-attempt roadmap & selector.
+ S.cycles=ndaCycles();
+ S.readyFrom=readyFrom;
+ // DOB-only fits (to explain "age fine but academics pending", or vice versa)
+ S.dobFits=S.cycles.filter(dobFit);
+ // Current eligibility: Class 12 appearing/passed AND DOB inside the next notification's window.
+ S.ndaAge=(S.is12||S.is12a)&&S.attempts.length>0;
+ S.ndaWin=S.ndaAge?S.attempts[0].name+" ("+dmy(S.attempts[0].exam)+")":"";
+ // School students: not eligible today, but future attempts exist.
+ S.ndaFuture=(S.c10||S.c11)&&S.attempts.length>0;
+ S.proj=S.ndaFuture?{exam:S.attempts[0].name,date:S.attempts[0].exam,ageAt:(S.attempts[0].exam-dob)/(365.25*864e5)}:null;
+ S.agAge=(S.a>=17.5&&S.a<=23);
+
+ const el=[],r=(a,b)=>S.ay>=a&&S.ay<=b;
+ const P=(n,f,ok,note)=>{if(ok)el.push({n,f,note:note||""})};
+ S.futureEl=[];
+ const PF=(n,f,ok,note)=>{if(ok)S.futureEl.push({n,f,note:note||""})};
+ const schoolFuture=(S.c10||S.c11);
+ const now12=(S.is12||S.is12a);
+ const futNote=S.attempts&&S.attempts.length?"First attempt: "+S.attempts[0].name:"After entering Class 12";
+ const pcmLater="Take PCM in Class 11";
+ // ---- NDA: current eligibility (Class 12 + DOB window) ----
+ P("NDA – Army Wing","army",now12&&S.ndaAge);
+ P("NDA – Navy Wing","navy",now12&&S.ndaAge&&S.mat&&S.phy);
+ P("NDA – Air Force Wing","af",now12&&S.ndaAge&&S.mat&&S.phy);
+ P("10+2 TES (Technical)","army",now12&&S.ndaAge&&S.st==="pcm"&&S.gen==="M","Needs 60%+ in PCM");
+ P("10+2 B.Tech Cadet Entry","navy",now12&&S.ndaAge&&S.st==="pcm","Needs 70%+ overall");
+ // ---- NDA: future roadmap for school students (NOT eligible today) ----
+ PF("NDA – Army Wing","army",schoolFuture&&S.ndaFuture,futNote);
+ PF("NDA – Navy Wing","navy",schoolFuture&&S.ndaFuture&&(S.c10||(S.mat&&S.phy)),S.c10?pcmLater:futNote);
+ PF("NDA – Air Force Wing","af",schoolFuture&&S.ndaFuture&&(S.c10||(S.mat&&S.phy)),S.c10?pcmLater:futNote);
+ PF("10+2 TES (Technical)","army",schoolFuture&&S.ndaFuture&&(S.c10||S.st==="pcm")&&S.gen==="M","PCM with 60%+ needed");
+ PF("10+2 B.Tech Cadet Entry","navy",schoolFuture&&S.ndaFuture&&(S.c10||S.st==="pcm"),"PCM with 70%+ needed");
+ // ---- Graduate entries: graduation-appearing (final year) is eligible for CDS/AFCAT, provisional ----
+ const ugNote="Final-year — provisional until degree result";
+ P("CDS – IMA","army",(S.grad||S.ug)&&r(19,24)&&S.gen==="M",S.ug?ugNote:"");
+ P("CDS – OTA","army",(S.grad||S.ug)&&r(19,25),S.ug?ugNote:"");
+ P("CDS – INA","navy",S.engg&&r(19,24)&&S.gen==="M");
+ P("CDS – AFA","af",(S.grad||S.ug)&&r(20,24)&&S.mat&&S.phy&&S.gen==="M",S.ug?ugNote:"");
+ P("CAPF – Assistant Commandant","capf",S.grad&&r(20,25));
+ P("AFCAT – Flying","af",(S.grad||S.ug)&&r(20,24)&&S.mat&&S.phy,S.ug?ugNote:"");
+ P("AFCAT – Ground Duty","af",(S.grad||S.ug)&&r(20,26),S.ug?ugNote:"");
+ P("TGC (Army)","army",S.engg&&r(20,27)&&S.gen==="M");
+ P("SSC Tech (Army)","army",S.engg&&r(20,27));
+ P("Navy SSC Officer","navy",S.grad&&r(19,27));
+ P("Coast Guard Asst. Commandant","cg",S.grad&&r(21,25)&&S.mat&&S.phy);
+ P("Agniveer GD (Army)","army",S.agAge);
+ P("Agniveer MR (Navy)","navy",S.agAge);
+ P("Agniveer Vayu Y (Air Force)","af",S.agAge&&S.has12);
+ P("Agniveer Technical (Army)","army",S.agAge&&S.has12&&S.st==="pcm");
+ P("Agniveer Vayu X (Air Force)","af",S.agAge&&S.has12&&S.st==="pcm");
+ P("Agniveer SSR (Navy)","navy",S.agAge&&S.has12&&S.st==="pcm");
+ S.el=el;
+ S.nda=el.some(x=>x.n.startsWith("NDA"))||S.futureEl.some(x=>x.n.startsWith("NDA"));
+ S.cds=el.some(x=>x.n.startsWith("CDS")||x.n.startsWith("AFCAT"));
+ S.capf=el.some(x=>x.n.startsWith("CAPF"));
+ S.ag=el.some(x=>x.n.startsWith("Agniveer"));
+ S.path=S.nda?"NDA":(S.cds?"CDS":(S.capf?"CAPF":(S.ag?"AGNIVEER":"NONE")));
+
+ /* ---- Age–education consistency & exam-timing warnings (non-blocking) ---- */
+ S.warn=[];
+ const a=S.a;
+ // Typical age bands: 10th ~15-16, 12th ~17-18, graduate ~21+.
+ if((S.q==="10")&&a>18) S.warn.push("The student is "+S.ay+" years old but marked as Class 10. Please re-check the class — at this age a candidate is usually a graduate, which opens the CDS / CAPF / AFCAT routes instead of NDA.");
+ if((S.q==="12app"||S.q==="12pass")&&a>21) S.warn.push("The student is "+S.ay+" years old but marked as Class 12. NDA is only for ages 16.5–19.5, so this profile has already crossed the NDA window. If the student is in fact a graduate, select \u201cGraduate\u201d to unlock CDS / CAPF / AFCAT.");
+ if((S.grad||S.ug)&&a<18) S.warn.push("The student is "+S.ay+" years old but marked as a graduate/pursuing graduation. Please re-check — graduate entries (CDS / CAPF / AFCAT) need a completed degree, normally around age 21+.");
+ // NDA education-timing rule (official: Class 11 not eligible now; must be in Class 12 to sit; 12th result needed before joining).
+ if(S.q==="10") S.warn.push("NDA timing: a Class 10 student is not yet eligible to sit NDA — the exam is for Class 12 (appearing or passed). Based on the date of birth, the first attempt the student can sit is "+(S.proj?S.proj.exam+", at age "+S.proj.ageAt.toFixed(1):"after entering Class 12")+". The 18-month Foundation is built exactly for this runway.");
+ if(S.q==="11") S.warn.push("NDA timing: a Class 11 student is NOT yet eligible to sit NDA — the candidate can appear only from Class 12. Based on the date of birth, the first attempt the student can sit is "+(S.proj?S.proj.exam+", at age "+S.proj.ageAt.toFixed(1):"after entering Class 12")+".");
+ if(S.nda&&(S.q==="12app")) S.warn.push("NDA timing: an appearing candidate must produce proof of passing Class 12 by the date set in the notification (typically before the course commences). Missing the result deadline forfeits the seat even after clearing written + SSB.");
+ // Graduate-appearing timing.
+ if((S.cds||S.capf)&&S.ug) S.warn.push("CDS / CAPF timing: graduation-pursuing candidates may apply in the final year, but admission stays provisional until the degree result is submitted within the deadline in the notification.");
+
+ document.getElementById("out3").innerHTML=block3();
+ document.getElementById("out4").innerHTML=block4();
+ document.getElementById("out5").innerHTML=block5();
+ document.getElementById("out6").innerHTML=block6();
+ ["3","4","5","6","7"].forEach(n=>{const c=document.getElementById("c"+n);c.classList.remove("closed");c.classList.add("done");});
+ ["1","2"].forEach(n=>document.getElementById("c"+n).classList.add("closed"));
+ jump(3);
+ attWarn();
+}
+
+/* ---------- STEP 3 ---------- */
+const PATHTAG={NDA:"Officer entry straight after Class 12",CDS:"Officer entry after graduation",
+ CAPF:"Assistant Commandant — paramilitary officer entry after graduation",
+ AGNIVEER:"Soldier / Sailor / Airman entry",NONE:"No entry matches yet"};
+function block3(){
+ const C=S.C;let h='<div class="resband"><div class="rb-lbl">Recommended track</div>'+
+ '<div class="rb-name">'+ESC(S.name)+' → '+(S.path==="NONE"?"Review Needed":S.path)+'</div>'+
+ '<div class="rb-tag">'+PATHTAG[S.path]+(S.ndaWin&&S.path==="NDA"?' · eligible for <b>'+S.ndaWin+'</b>':'')+(S.proj&&S.path==="NDA"?' · first attempt <b>'+S.proj.exam+'</b>':'')+'</div>'+
+ '<div class="rbst"><div><b>'+dmy(S.dob)+'</b><span>Date of Birth</span></div>'+
+ '<div><b>'+S.a.toFixed(1)+' yrs</b><span>Age today</span></div>'+
+ (S.proj?'<div><b>'+S.proj.ageAt.toFixed(1)+' yrs</b><span>Age at '+S.proj.exam+'</span></div>':'')+
+ '<div><b>'+({M:"Male",F:"Female"})[S.gen]+'</b><span>Gender</span></div>'+
+ '<div><b>'+S.el.length+'</b><span>Entries open</span></div>'+
+ '<div><b>'+C.n.split(" –")[0]+'</b><span>Centre</span></div></div></div>';
+ // Projection banner for a school student — the key timing message.
+ if((S.c10||S.c11)&&S.proj){
+  const days=Math.max(0,Math.ceil((S.proj.date-new Date())/864e5));
+  h+='<div class="projban"><div class="pb-ic">📅</div><div style="flex:1"><div class="pb-t">First NDA attempt this student can sit</div>'+
+     '<div class="pb-m">'+S.proj.exam+' · exam on '+dmy(S.proj.date)+'</div>'+
+     '<div class="pb-s">The student will be <b>'+S.proj.ageAt.toFixed(1)+' years</b> old at that exam — safely inside the 16.5–19.5 NDA window.</div>'+
+     '<div class="count"><div><b>'+days+'</b><span>Days to exam</span></div><div><b>'+Math.floor(days/7)+'</b><span>Weeks</span></div><div><b>'+Math.round(days/30.44)+'</b><span>Months</span></div></div></div></div>';
+ }
+ if(!S.c10&&!S.c11&&S.path==="NDA"&&S.attempts&&S.attempts.length){
+  const nx=S.attempts[0];
+  const days=Math.ceil((nx.exam-new Date())/864e5);
+  h+='<div class="projban"><div class="pb-ic">⏳</div><div style="flex:1"><div class="pb-t">Target exam</div>'+
+     '<div class="pb-m">'+nx.name+' · '+dmy(nx.exam)+'</div>'+
+     '<div class="pb-s">Every day counts — this is the number to show the parent.</div>'+
+     '<div class="count"><div><b>'+days+'</b><span>Days to exam</span></div><div><b>'+Math.floor(days/7)+'</b><span>Weeks</span></div><div><b>'+Math.round(days/30.44)+'</b><span>Months</span></div></div></div></div>';
+ }
+ // Consistency / timing warnings (shown for any profile)
+ let warnHTML="";
+ if(S.warn&&S.warn.length){warnHTML='<div class="tip tip-amber">⚠ <b>Please verify before counselling:</b><ul class="dl" style="margin-top:4px">'+S.warn.map(w=>'<li>'+w+'</li>').join("")+'</ul></div>';}
+ if(S.path==="NONE"){
+  let why=[];
+  if(S.a<16.5) why.push("The student is only "+S.a.toFixed(1)+" years old — below the NDA minimum of 16.5. Come back closer to the eligible window; the 18-month Foundation can start the runway now.");
+  else if(S.a>19.5 && !S.grad && !S.ug && S.a<20) why.push("At "+S.a.toFixed(1)+" the NDA window (16.5–19.5) has just closed, and there is no completed degree yet for CDS/CAPF. The graduate routes open once the degree is in hand.");
+  else if(!S.grad && !S.ug && S.a>19.5) why.push("The NDA window (16.5–19.5) has passed and the student is not a graduate, so CDS / CAPF / AFCAT are not open yet. Agniveer needs age 17.5–23"+(S.a>23?" — also crossed":"")+". A completed degree would open the officer-after-graduation routes.");
+  if(S.q==="10"&&S.a>18) why.push("The class was marked as Class 10 but the age suggests otherwise — please re-check the qualification.");
+  if(!why.length) why.push("Re-check the date of birth and qualification. Every NDA notification has its own official DOB window (e.g. NDA II 2026: 01 January 2008 – 01 January 2011) and this DOB fits none of the upcoming windows. Agniveer needs age 17.5–23. CDS / CAPF need a completed (or final-year) degree.");
+  return h+warnHTML+'<div class="tip tip-amber">⚠ <b>No entry matches this profile right now.</b><ul class="dl" style="margin-top:4px">'+why.map(w=>'<li>'+w+'</li>').join("")+'</ul></div>';
+ }
+ h+=warnHTML;
+ const school=(S.c10||S.c11);
+ // ---- Structured NDA eligibility (per UPSC rules: academic + DOB checked together, subjects separately) ----
+ if(S.nda){
+  const academicOK=(S.is12||S.is12a), dobOK=S.attempts.length>0;
+  const ok=v=>v?'<span style="color:#146b3a;font-weight:900">✓</span>':'<span style="color:#b02a1f;font-weight:900">✗</span>';
+  const acadLine=academicOK?ok(1)+' '+(S.is12a?'Class 12 Appearing':'Class 12 Passed')
+    :ok(0)+' Currently studying in Class '+(S.c10?'10':(S.c11?'11':'—'))+'. NDA requires Class 12 Appearing or Passed.';
+  const dobLine=dobOK?ok(1)+' DOB within the UPSC notification window':ok(0)+' DOB outside every upcoming UPSC notification window';
+  const pcmOK=S.mat&&S.phy, pcmKnown=!S.c10;
+  const subLineY=ok(1)+' Physics available &nbsp;'+ok(1)+' Mathematics available';
+  const subLineN=ok(0)+' Physics and Mathematics are compulsory.';
+  const subLineU='<span style="color:#8a6100;font-weight:900">?</span> Stream chosen in Class 11 will decide';
+  const wing=(nm,needPCM)=>{
+   const subOK=needPCM?(pcmKnown?pcmOK:null):true;
+   const eligNow=academicOK&&dobOK&&(subOK===true);
+   const eligFut=school&&dobOK&&(needPCM?(pcmKnown?pcmOK:true):true);
+   const status=eligNow?'<span style="color:#146b3a;font-weight:900">✓ Eligible</span>'
+     :(eligFut?'<span style="color:#8a6100;font-weight:900">◷ Future — '+(S.attempts.length?S.attempts[0].name:'after Class 12')+'</span>'
+     :'<span style="color:#b02a1f;font-weight:900">✗ Not Eligible</span>');
+   let reasons=[acadLine,dobLine];
+   if(needPCM)reasons.push(subOK===true?subLineY:(subOK===false?subLineN:subLineU));
+   return '<tr><td><b>'+nm+'</b></td><td>'+status+'</td><td>'+reasons.join('<br>')+'</td></tr>';
+  };
+  h+='<div class="sechead">NDA — structured eligibility</div><table class="tbl-navy"><tr><th>Wing</th><th>Status</th><th>Reason</th></tr>'+
+     wing('NDA – Army Wing',false)+wing('NDA – Air Force Wing',true)+wing('NDA – Navy Wing',true)+'</table>';
+  // ---- Dynamic per-attempt warning + selector (each notification carries its own DOB window) ----
+  const tgt=S.attempts.length?S.attempts[0]:S.cycles[0];
+  h+='<div class="tip tip-amber co-only" style="margin-top:10px">⚠ <b>Never estimate age.</b> NDA eligibility is determined by the official Date of Birth window for the selected notification, not by age in years. The eligibility shown below is based on the currently selected NDA attempt. Even a one-day difference in Date of Birth can change eligibility.</div>';
+  h+='<div class="ch" style="margin-top:8px">Check eligibility for a specific attempt</div>'+
+     '<select id="attSel" onchange="attWarn()" style="max-width:280px">'+
+     S.cycles.slice(0,8).map((c,i)=>'<option value="'+i+'"'+(c.name===tgt.name?' selected':'')+'>'+c.name+'</option>').join('')+
+     '</select><div id="attOut" style="margin-top:6px"></div>';
+  // ---- Roadmap: every upcoming attempt with ITS OWN official DOB window + status ----
+  h+='<div class="ch" style="margin-top:12px">NDA roadmap — every upcoming notification with its own DOB window</div>'+
+     '<table class="tbl-navy"><tr><th>Attempt</th><th>Exam (indicative)</th><th>Official DOB window</th><th>Status for this student</th></tr>';
+  let anyElig=false;
+  S.cycles.slice(0,8).forEach(c=>{
+    const fit=(S.dob>=c.from&&S.dob<=c.to), ready=(c.exam>=S.readyFrom);
+    const elig=fit&&ready; if(elig)anyElig=true;
+    let st, why="";
+    if(elig){st='<span style="color:#146b3a;font-weight:900">✓ Eligible</span>';}
+    else if(!fit){st='<span style="color:#b02a1f;font-weight:900">✗ Not Eligible</span>';why='DOB outside this notification\'s window';}
+    else {st='<span style="color:#8a6100;font-weight:900">◷ Not yet</span>';why='Class 12 not reached by this attempt';}
+    h+='<tr><td><b>'+c.name+'</b></td><td>'+dmy(c.exam)+'</td><td>'+dLong(c.from)+' – '+dLong(c.to)+'</td><td>'+st+(why?'<br><span style="font-size:11px;color:#666">'+why+'</span>':'')+'</td></tr>';
+  });
+  h+='</table>';
+  if(!anyElig)h+='<div class="tip tip-amber">⚠ This Date of Birth does not fall inside any upcoming UPSC NDA notification window that the student can academically reach — the NDA route is closed.</div>';
+ }
+ h+='<div class="ch" style="margin-top:12px">'+S.el.length+' entries open today</div><div class="chips">';
+ S.el.forEach(x=>{h+='<div class="chip c-'+x.f+'"><b>'+x.n+'</b><span>'+({army:"Indian Army",navy:"Indian Navy",af:"Indian Air Force",cg:"Coast Guard",capf:"CAPF · Paramilitary"})[x.f]+'</span>'+(x.note?'<i>'+x.note+'</i>':'')+'</div>'});
+ if(!S.el.length)h+='<div class="tip tip-amber" style="grid-column:1/-1">No entry is open today — see the future roadmap above.</div>';
+ h+='</div>';
+ if(S.futureEl.length){
+  h+='<div class="ch" style="margin-top:10px">Future eligibility — opens as the student progresses</div><div class="chips">';
+  S.futureEl.forEach(x=>{h+='<div class="chip c-'+x.f+'" style="opacity:.75"><b>'+x.n+'</b><span>'+({army:"Indian Army",navy:"Indian Navy",af:"Indian Air Force",cg:"Coast Guard",capf:"CAPF · Paramilitary"})[x.f]+'</span>'+(x.note?'<i>'+x.note+'</i>':'')+'</div>'});
+  h+='</div>';
+ }
+ h+='<div class="tip tip-'+(school?'amber':'green')+'">'+(school
+  ? '⚠ '+(S.c10?'Class 10':'Class 11')+' student — the stream '+(S.c10?'chosen in Class 11':'the student is taking')+' decides the Navy and Air Force wings. Without Physics and Maths, only the Army Wing stays open.'
+  : '💡 Say this out loud: every one of these is checked on date of birth, qualification, stream and gender. Nothing here is an estimate.')+'</div>';
+ h+='<details><summary>See every entry and its requirement →</summary>'+reqTable()+'</details>';
+ return h;
+}
+function reqTable(){
+ const open=S.el.map(x=>x.n),rows=[
+  ["NDA – Army Wing","12th pass/appearing · any stream · 16.5–19.5"],
+  ["NDA – Navy Wing","12th with Physics &amp; Maths · 16.5–19.5"],
+  ["NDA – Air Force Wing","12th with Physics &amp; Maths · 16.5–19.5"],
+  ["10+2 TES (Technical)","12th PCM with 60%+ · Male · 16.5–19.5"],
+  ["10+2 B.Tech Cadet Entry","12th PCM with 70%+ overall · 16.5–19.5"],
+  ["CDS – IMA","Any graduate · 19–24 · Male"],
+  ["CDS – OTA","Any graduate · 19–25 · Male &amp; Female · no Maths paper"],
+  ["CDS – INA","Engineering degree · 19–24 · Male"],
+  ["CDS – AFA","Graduate + Physics &amp; Maths in 12th · 20–24 · Male"],
+  ["CAPF – Assistant Commandant","Any graduate · 20–25 · Male &amp; Female"],
+  ["AFCAT – Flying","Graduate + Physics &amp; Maths in 12th · 20–24"],
+  ["AFCAT – Ground Duty","Relevant graduation · 20–26"],
+  ["TGC (Army)","BE/B.Tech · 20–27 · Male"],
+  ["SSC Tech (Army)","BE/B.Tech · 20–27"],
+  ["Navy SSC Officer","Graduate / Engineer · 19–27"],
+  ["Coast Guard Asst. Commandant","Graduate with Maths &amp; Physics · 21–25"],
+  ["Agniveer GD (Army)","10th pass · any stream · 17.5–23"],
+  ["Agniveer MR (Navy)","10th pass · any stream · 17.5–23"],
+  ["Agniveer Vayu Y (Air Force)","12th pass · any stream · 17.5–23"],
+  ["Agniveer Technical (Army)","12th PCM · 17.5–23"],
+  ["Agniveer Vayu X (Air Force)","12th PCM · 17.5–23"],
+  ["Agniveer SSR (Navy)","12th PCM · 17.5–23"]];
+ const openRows=rows.filter(r=>open.indexOf(r[0])>=0), closedRows=rows.filter(r=>open.indexOf(r[0])<0);
+ let t='<table><tr><th>Entry</th><th>Requirement</th><th>Status</th></tr>';
+ if(openRows.length){
+  t+='<tr><td colspan="3" style="background:#e6f6ec;color:#146b3a;font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em">✔ Open for this student ('+openRows.length+')</td></tr>';
+  openRows.forEach(r=>{t+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td style="color:#146b3a;font-weight:800">Open</td></tr>'});
+ }
+ if(closedRows.length){
+  t+='<tr><td colspan="3" style="background:#fdecea;color:#b02a1f;font-weight:800;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em">✘ Not open for this student ('+closedRows.length+')</td></tr>';
+  closedRows.forEach(r=>{t+='<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td style="color:#b02a1f;font-weight:800">Closed</td></tr>'});
+ }
+ t+='</table>';
+ return t+'<div class="tip tip-blue">All entries also need unmarried status, sound physical and mental health, and a clear medical board. CDS additionally needs height 157 cm and above.</div>';
+}
+
+/* ---------- STEP 4 ---------- */
+function block4(){
+ if(S.path==="NONE")return '<div class="ph">No track selected.</div>';
+ let h="";
+ if(S.nda){
+  h+='<div class="ch">NDA — written 900 + SSB 900 = final merit out of 1800</div>';
+  h+='<div class="kpis"><div><b>334</b><span>Written cutoff · NDA I 2025 (of 900)</span></div>'+
+     '<div><b>699</b><span>Final cutoff · NDA I 2025 (of 1800)</span></div>'+
+     '<div><b>25%</b><span>Minimum in each paper</span></div>'+
+     '<div><b>406</b><span>Final intake · NDA-1</span></div></div>';
+  h+='<table><tr><th>Exam</th><th>Written (of 900)</th><th>Final (of 1800)</th><th>Min. per subject</th></tr>';
+  NDA_CUT.forEach(c=>{h+='<tr><td>'+c[0]+'</td><td class="big">'+c[1]+'</td><td class="big">'+c[2]+'</td><td>'+c[3]+'</td></tr>'});
+  h+='</table>';
+  h+='<div class="funnel"><div><b>5–6 L</b><span>Register</span></div><div><b>2–2.5 L</b><span>Appear</span></div><div><b>8–10 K</b><span>Qualify for SSB</span></div><div><b>700–800</b><span>Recommended</span></div><div><b>406</b><span>Finally join</span></div></div>';
+  h+='<div class="tip tip-amber">💬 Counselling line: the cutoff has moved between 291 and 360 in four years. The target is not "just pass" — it is a written score comfortably above 334, and then SSB, which carries the same 900 marks as the written paper.</div>';
+ }
+ if(S.cds){
+  h+='<div class="ch" style="margin-top:12px">CDS — written 300 (IMA / INA / AFA) or 200 (OTA) + SSB 900</div>';
+  h+='<div class="kpis"><div><b>120 → 243</b><span>IMA written → final (2025)</span></div>'+
+     '<div><b>128 → 253</b><span>AFA written → final (2025)</span></div>'+
+     '<div><b>81 → 163</b><span>OTA Men written → final (2025)</span></div>'+
+     '<div><b>457</b><span>Final intake · CDS-1 2025</span></div></div>';
+  h+='<table><tr><th>Exam</th><th>Academy</th><th>Written</th><th>Final</th></tr>';
+  CDS_CUT.forEach(c=>{h+='<tr><td>'+c[0]+'</td><td>'+c[1]+'</td><td class="big">'+c[2]+'</td><td class="big">'+c[3]+'</td></tr>'});
+  h+='</table>';
+  h+='<div class="funnel"><div><b>3–4 L</b><span>Register</span></div><div><b>85K–1 L</b><span>Appear</span></div><div><b>8–10 K</b><span>Qualify for SSB</span></div><div><b>300–500</b><span>Recommended</span></div><div><b>457</b><span>Finally join</span></div></div>';
+  h+='<div class="tip tip-amber">💬 Counselling line: OTA carries the lowest cutoff of the four academies and has no Maths paper — the natural backup for a non-Maths graduate. But 20% is needed in every subject; a strong total does not rescue one weak paper.</div>';
+ }
+ if(S.capf){
+  h+='<div class="ch" style="margin-top:12px">CAPF (Assistant Commandant) — written 450 + Interview 150 = 600</div>';
+  h+='<div class="kpis"><div><b>250</b><span>Paper I · General Ability (of 600)</span></div>'+
+     '<div><b>200</b><span>Paper II · Studies, Essay &amp; Comprehension</span></div>'+
+     '<div><b>150</b><span>Interview · Personality Test</span></div>'+
+     '<div><b>600</b><span>Grand total</span></div></div>';
+  h+='<table><tr><th>Stage</th><th>Detail</th><th>Marks</th></tr>'+
+   '<tr><td>Paper I — General Ability &amp; Intelligence</td><td>125 MCQs · 2 hours · +2 correct, −0.33 wrong</td><td class="big">250</td></tr>'+
+   '<tr><td>Paper II — General Studies, Essay &amp; Comprehension</td><td>6 descriptive · 3 hours · no negative marking</td><td class="big">200</td></tr>'+
+   '<tr><td>PET / PST</td><td>100m &amp; 800m race, long jump, shot put (male) · height, weight, chest verification</td><td>Qualifying</td></tr>'+
+   '<tr><td>Medical Examination</td><td>Vision, hearing, general fitness as per CAPF guidelines</td><td>Qualifying</td></tr>'+
+   '<tr><td>Interview — Personality Test</td><td>Leadership, communication, decision making, mental alertness</td><td class="big">150</td></tr>'+
+   '<tr><td>Final Merit</td><td>Written 450 + Interview 150</td><td class="big">600</td></tr></table>';
+  h+='<div class="tip tip-blue">CAPF recruits Assistant Commandants for BSF, CRPF, CISF, ITBP and SSB. Minimum qualifying marks are required separately in both papers before PET/PST, medical and interview. Category cutoffs are not part of the Defence Wallah documents, so no cutoff figure is shown here.</div>';
+ }
+ if(S.ag&&!S.nda&&!S.cds){
+  h+='<div class="ch">Agniveer — rally-based selection</div>';
+  h+='<div class="tip tip-blue">Agniveer cutoffs are declared rally by rally and are not published in the Defence Wallah documents, so no cutoff figure is shown. Written → Physical Fitness Test → Medical. Multiple rallies every year.</div>';
+  h+='<table><tr><th>Entry</th><th>Force</th><th>Q / Marks</th><th>Duration</th><th>Marking</th><th>Qualification</th></tr>'+
+   '<tr><td>Agniveer GD</td><td>Army</td><td>50 / 100</td><td>60 min</td><td>+2 / −0.25</td><td>10th · any stream</td></tr>'+
+   '<tr><td>Agniveer Technical</td><td>Army</td><td>50 / 100</td><td>60 min</td><td>+2 / −0.25</td><td>12th · PCM</td></tr>'+
+   '<tr><td>Vayu Group Y</td><td>Air Force</td><td>50 / 100</td><td>45 min</td><td>+2 / −0.25</td><td>12th · any stream</td></tr>'+
+   '<tr><td>Vayu Group X</td><td>Air Force</td><td>70 / 70</td><td>60 min</td><td>+1 / −0.25</td><td>12th · PCM</td></tr>'+
+   '<tr><td>Agniveer MR</td><td>Navy</td><td>50 / 50</td><td>30 min</td><td>+1 / −0.25</td><td>10th · any stream</td></tr>'+
+   '<tr><td>Agniveer SSR</td><td>Navy</td><td>100 / 100</td><td>60 min</td><td>+1 / −0.25</td><td>12th · PCM</td></tr></table>';
+ }
+ h+='<details><summary>Exam pattern &amp; marking scheme →</summary>'+
+ '<table><tr><th>Exam</th><th>Papers</th><th>Marks</th><th>Marking</th><th>Minimum</th></tr>'+
+ '<tr><td>NDA</td><td>Mathematics (120 Q) · GAT: English 50 + GK 100 (150 Q)</td><td>300 + 600 = 900</td><td>Maths +2.5 / −0.83 · GAT +4 / −1.33</td><td>25% per paper</td></tr>'+
+ '<tr><td>CDS – IMA / INA / AFA</td><td>English · GK · Elementary Maths</td><td>100 each = 300</td><td>−1/3 per wrong</td><td>20% per subject</td></tr>'+
+ '<tr><td>CDS – OTA</td><td>English · GK (no Maths)</td><td>100 each = 200</td><td>−1/3 per wrong</td><td>20% per subject</td></tr>'+
+ '<tr><td>CAPF (AC)</td><td>Paper I General Ability (125 MCQ) · Paper II Studies, Essay &amp; Comprehension (descriptive)</td><td>250 + 200 = 450</td><td>Paper I +2 / −0.33 · Paper II none</td><td>Separate cutoff per paper</td></tr>'+
+ '<tr><td>SSB (NDA &amp; CDS)</td><td>5 days · OIR + PPDT, Psychology, GTO, Interview, Conference</td><td>900</td><td>—</td><td>Recommendation</td></tr></table>'+
+ '<div class="tip tip-blue">NDA and CDS run twice a year — notification in December and May, exams in April and September. Both bilingual. NDA GK spread: Physics 21, Chemistry 18, Geography 18, History 13, Biology 11, Current Affairs 10, Polity 3, Static 3, Economics 2.</div></details>';
+ return h;
+}
+
+/* ---------- STEP 5 ---------- */
+const JOURNEY={
+ NDA:[["📝","Class 12 + NDA Written","Now","Maths 300 + GAT 600 = <b>900 marks</b>. Minimum 25% in each paper.","#2c5e1a"],
+  ["🎯","SSB Interview · 5 Days","","Day 1 screening (OIR + PPDT) · Days 2–4 psychology, GTO tasks, personal interview · Day 5 conference. <b>900 marks</b>.","#4f9130"],
+  ["🩺","Medical Board","","Full fitness check. Merit = Written 900 + SSB 900 = <b>1800</b>.","#0f6e56"],
+  ["🎓","NDA Khadakwasla","3 Years","B.A. / B.Sc. / B.Tech degree (academics from JNU) with drills, obstacle courses, war studies and leadership training. Ends with Antim Pag and the Passing Out Parade.","#123a63"],
+  ["⚔️","Service Academy","1 Year","IMA Dehradun (Army) · INA Ezhimala (Navy) · AFA Hyderabad (Air Force).","#1c5a93"],
+  ["🎖️","Final Commissioning","","The candidate is finally commissioned as an Officer after successfully completing training from the respective academy — Indian Military Academy (IMA), Indian Naval Academy (INA) or Air Force Academy (AFA).","#b8860b"]],
+ CDS:[["🎓","Graduation Complete","Now","Class 12 marks do NOT decide CDS eligibility.","#2c5e1a"],
+  ["📝","CDS Written Exam","","IMA/INA/AFA: English + GK + Maths = <b>300</b>. OTA: English + GK = <b>200</b>. Minimum 20% per subject.","#4f9130"],
+  ["🎯","SSB Interview · 5 Days","","Screening → psychology, GTO, interview → conference. <b>900 marks</b>. AFCAT Flying also needs the CPSS test.","#0f6e56"],
+  ["🩺","Medical Board","","Medical clearance before joining the academy.","#123a63"],
+  ["⚔️","Academy Training","","IMA Dehradun · INA Ezhimala · AFA Hyderabad · OTA. Graduate entry means shorter, focused training.","#1c5a93"],
+  ["🎖️","Final Commissioning","","The candidate is finally commissioned as an Officer after successfully completing training from the respective academy — Indian Military Academy (IMA), Indian Naval Academy (INA), Air Force Academy (AFA) or Officers Training Academy (OTA). The OTA route is a Short Service Commission.","#b8860b"]],
+ AGNIVEER:[["📝","Written Exam","Now","Online CEE / entrance test as per the force and entry.","#2c5e1a"],
+  ["🏃","Physical Fitness Test","","Conducted after the written exam.","#4f9130"],
+  ["🩺","Medical Examination","","Final fitness clearance.","#123a63"],
+  ["🪖","Agniveer","","Enrolled as Soldier / Sailor / Airman.","#b8860b"]],
+ CAPF:[["🎓","Graduation Complete","Now","Any graduate, 20–25 years, male or female. Any stream.","#2c5e1a"],
+  ["📝","Written Exam","","Paper I General Ability (250) + Paper II Studies, Essay &amp; Comprehension (200) = <b>450 marks</b>. Qualify each paper separately.","#4f9130"],
+  ["🏃","PET / PST","","Physical Efficiency Test (100m, 800m, long jump, shot put) and Physical Standard Test (height, weight, chest). Qualifying.","#0f6e56"],
+  ["🩺","Medical Examination","","Vision, hearing and general fitness as per CAPF guidelines.","#123a63"],
+  ["🗣️","Interview — Personality Test","","Leadership, communication, decision making and officer-like potential. <b>150 marks</b>.","#1c5a93"],
+  ["🎖️","Assistant Commandant","","Commissioned as an Assistant Commandant (Group A officer) in BSF, CRPF, CISF, ITBP or SSB. Final merit out of <b>600</b>.","#b8860b"]]
+};
+function block5(){
+ if(S.path==="NONE")return '<div class="ph">No track selected.</div>';
+ let h='<div class="ch">The road — show this to the parent</div><div class="road">';
+ JOURNEY[S.path].forEach(j=>{h+='<div class="rstep"><div class="rdot" style="background:'+j[4]+'">'+j[0]+'</div><div class="rbody"><b>'+j[1]+(j[2]?'<span class="yr">'+j[2]+'</span>':'')+'</b><p>'+j[3]+'</p></div></div>'});
+ h+='</div>';
+ const isF=(S.nda&&(S.is12a||S.c10||S.c11));
+ // Red stat band — the headline numbers
+ if(isF)h+='<div class="statband"><div><b>6</b><span>Days / Week</span></div><div><b>3</b><span>Lectures / Day</span></div><div><b>1100+</b><span>Lectures</span></div><div><b>1600+</b><span>Teaching Hrs</span></div><div><b>15–16</b><span>Full Mocks</span></div></div>';
+ else if(S.ag&&!S.nda&&!S.cds)h+='<div class="statband"><div><b>2026</b><span>Agniveer Cycle</span></div><div><b>1</b><span>Centre · Sikar only</span></div><div><b>PFT</b><span>Ground Training</span></div><div><b>'+INR(42500)+'</b><span>Mahapack Fee</span></div></div>';
+ else h+='<div class="statband"><div><b>6</b><span>Days / Week</span></div><div><b>3</b><span>Lectures / Day</span></div><div><b>200–250</b><span>Lectures</span></div><div><b>600+</b><span>Teaching Hrs</span></div><div><b>7–8</b><span>Mocks / Year</span></div></div>';
+ h+='<div class="sechead">Preparation plan at the centre</div><table class="tbl-navy"><tr><th>Parameter</th><th>Plan</th></tr>';
+ if(isF)h+='<tr><td>Duration &amp; load</td><td>18 months · 6 days a week · 3 lectures a day · 90 min each · approx. <b>1100 lectures / 1600+ hours</b></td></tr><tr><td>Mock tests</td><td class="num">15–16 full-length mocks</td></tr>';
+ else if(S.ag&&!S.nda&&!S.cds)h+='<tr><td>Duration</td><td>Paramveer Mahapack 2026 · offline at Sikar with a dedicated Agniveer training ground</td></tr><tr><td>Focus</td><td>Written exam plus Physical Fitness Test preparation</td></tr>';
+ else h+='<tr><td>Duration &amp; load</td><td>6 months · 6 days a week · 3 lectures a day · 120 min each · approx. <b>200–250 lectures / 600+ hours</b></td></tr><tr><td>Mock tests</td><td class="num">7–8 full-length mocks per year</td></tr>';
+ h+='<tr><td>Batch timing</td><td>Morning 9:00 AM · Afternoon 3:30 PM · doubt lectures scheduled separately · Sunday extra lectures as required</td></tr>'+
+ '<tr><td>Weekly test</td><td>After every chapter — topic-wise command check</td></tr>'+
+ '<tr><td>Fortnightly test</td><td>Common across all centres, with <b>All India Rank</b></td></tr>'+
+ '<tr><td>ASCT</td><td>All India Selection Cum Test in real NDA / CDS format</td></tr>'+
+ '<tr><td>Doubt support</td><td>Dedicated offline doubt room daily + AI Guru 24×7 online</td></tr>'+
+ '<tr><td>Parents</td><td>PW Parents App live tracking + 2–3 PTMs per phase, Saturday / Sunday, online option available</td></tr></table>';
+ h+='<details><summary>Test calendar →</summary><table><tr><th>Cycle</th><th>Dates</th></tr>'+
+ '<tr><td>ASCT · Jan–Feb 2026</td><td>18 Jan · 01 Feb · 15 Feb · 27 Feb</td></tr>'+
+ '<tr><td>Mock tests · Mar–Apr 2026</td><td>16, 20, 23, 26, 29 Mar · 01 Apr · 08 Apr</td></tr>'+
+ '<tr><td>TUFF Test (True UPSC Full Format)</td><td>04 Apr 2026</td></tr>'+
+ '<tr><td>Shaurya 2.0 · ASCT</td><td>31 May · 14 Jun · 28 Jun · 12 Jul · 02 Aug 2026</td></tr>'+
+ '<tr><td>Shaurya 2.0 · Mock</td><td>23, 26, 30 Aug · 02, 06, 09 Sep 2026</td></tr></table>'+
+ '<div class="tip tip-blue">Confirm the applicable cycle with the batch coordinator at enrollment.</div></details>';
+ h+='<div class="tip tip-green">💡 Give them a roadmap, not a dream. A parent who can see three years ahead stops comparing you on fee alone.</div>';
+ return h;
+}
+
+/* ---------- STEP 6 ---------- */
+function block6(){
+ const C=S.C;let h="";
+ if(S.path!=="NONE"){
+  const mk=(key,name,dur,valid,why,forceMode)=>{
+   const p=C[key]; if(!p||!p[0])return "";
+   const ssbAvail=C.ssb&&p[1];
+   const useSSB = forceMode==="ssb" ? ssbAvail : (forceMode==="base" ? false : ssbAvail);
+   const amt=useSSB?p[1]:p[0], isF=(key==="foundation");
+   const plan=isF?[["1st · D−7",amt*.45,"45%"],["2nd · D+42",amt*.30,"30%"],["3rd · D+90",amt*.25,"25%"]]
+                 :[["1st · D−7",amt*.60,"60%"],["2nd · D+30",amt*.40,"40%"]];
+   let o='<div class="feebox"><div class="fb-p">'+name+'</div><div class="fb-m">'+dur+' · valid till '+valid+' · '+C.n+'</div>'+
+   '<div class="fb-a">'+INR(amt)+' <small>incl. GST'+(useSSB?' · with 14-Day Offline SSB Training':' · course only')+'</small></div><div class="inst">';
+   plan.forEach(x=>{o+='<div><b>'+INR(x[1])+'</b><span>'+x[0]+' ('+x[2]+')</span></div>'});
+   o+='<div><b>'+(isF?"6 mo @6%":"3 mo @4%")+'</b><span>No-cost EMI</span></div></div></div>';
+   o+='<div class="tip tip-blue">'+why+(useSSB||C.ssb?'':' · 14-Day SSB Training runs at Lucknow and Dehradun only'+(C.ground?'; Sikar has an SSB ground for weekly activity':'')+'.')+'</div>';
+   return o;
+  };
+  let done=false;
+  if(S.nda){
+   if(S.is12a||S.c10||S.c11){
+    h+=mk("foundation","NDA Foundation Offline","18 Months","NDA 2, 2027","1100+ lectures · 1600+ hours · 6 days a week · 15–16 full mock tests. Built for a student still in school.");
+    h+='<div class="ch" style="margin-top:12px">Also available — NDA Shaurya (6 Months)</div>';
+    h+='<div class="ch">Option 1</div>';
+    h+=mk("shaurya","NDA Shaurya Offline","6 Months","NDA 2, 2026","200–250 lectures · 600+ hours · 6 days a week · 7–8 full mock tests. For the nearest attempt instead of the 2027 cycle.","base");
+    h+='<div class="ch" style="margin-top:10px">Option 2</div>';
+    if(C.ssb&&C.shaurya[1]){
+     h+=mk("shaurya","NDA Shaurya Offline + Offline SSB","6 Months","NDA 2, 2026","Everything in the base course plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
+    }else{
+     h+='<div class="altbox"><b>NDA Shaurya Offline + Offline SSB</b> — the Offline SSB Training add-on is available at Lucknow and Dehradun only. At '+C.n+' the base NDA Shaurya Offline course runs'+(C.ground?', and Sikar has an SSB ground for weekly activity':'')+'. To add SSB training, route the student to Lucknow or Dehradun.</div>';
+    }
+    done=true;
+   }else{
+    h+='<div class="ch">Option 1</div>';
+    h+=mk("shaurya","NDA Shaurya Offline","6 Months","NDA 2, 2026","200–250 lectures · 600+ hours · 6 days a week · 7–8 full mock tests. Fast-track for a 12th-passed student.","base");
+    h+='<div class="ch" style="margin-top:10px">Option 2</div>';
+    if(C.ssb&&C.shaurya[1]){
+     h+=mk("shaurya","NDA Shaurya Offline + Offline SSB","6 Months","NDA 2, 2026","Everything in the base course plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
+    }else{
+     h+='<div class="altbox"><b>NDA Shaurya Offline + Offline SSB</b> — the Offline SSB Training add-on is available at Lucknow and Dehradun only. At '+C.n+' the base NDA Shaurya Offline course runs'+(C.ground?', and Sikar has an SSB ground for weekly activity':'')+'. To add SSB training, route the student to Lucknow or Dehradun.</div>';
+    }
+    done=true;
+   }
+  }
+  if(S.cds&&!done){
+   h+='<div class="ch">Option 1</div>';
+   h+=mk("cds","CDS Virat Offline","6 Months","CDS 2, 2026","200–250 lectures · 600+ hours · one classroom programme for CDS + AFCAT. CDS: English, General Knowledge and Mathematics (English + GK only for OTA). AFCAT: English, General Awareness, Reasoning &amp; Military Aptitude and Numerical Aptitude. The same faculty and classroom structure supports both CDS and AFCAT preparation.","base");
+   h+='<div class="ch" style="margin-top:10px">Option 2</div>';
+   if(C.ssb&&C.cds[1]){
+    h+=mk("cds","CDS Virat Offline + Offline SSB","6 Months","CDS 2, 2026","Everything in the base course (CDS + AFCAT) plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
+   }else{
+    h+='<div class="altbox"><b>CDS Virat Offline + Offline SSB</b> — the Offline SSB Training add-on is available at Lucknow and Dehradun only. At '+C.n+' the base CDS Virat Offline course runs'+(C.ground?', and Sikar has an SSB ground for weekly activity':'')+'. To add SSB training, route the student to Lucknow or Dehradun.</div>';
+   }
+   done=true;
+  }
+  if(S.ag&&!done){
+   if(C.param){const a=C.param;
+    h+='<div class="feebox"><div class="fb-p">Paramveer Mahapack 2026 (Offline)</div><div class="fb-m">Agniveer 2026 · Army / Air Force · '+C.n.split(" –")[0]+'</div><div class="fb-a">'+INR(a)+' <small>incl. GST</small></div><div class="inst"><div><b>'+INR(a*.6)+'</b><span>1st · D−7 (60%)</span></div><div><b>'+INR(a*.4)+'</b><span>2nd · D+30 (40%)</span></div><div><b>3 mo @4%</b><span>No-cost EMI</span></div></div></div><div class="tip tip-blue">Paramveer Mahapack (Agniveer) is available at the Sikar centre only.</div>';
+   }else h+='<div class="altbox"><b>Note:</b> Paramveer Mahapack (Agniveer) runs at the Sikar centre only. Either route the student to Sikar, or position NDA / CDS at '+C.n+'.</div>';
+  }
+  if(S.capf&&!done){
+   h+='<div class="altbox"><b>CAPF – Assistant Commandant:</b> the student is eligible for the UPSC CAPF (AC) exam. A dedicated CAPF batch is not listed in the Defence Wallah documents — confirm the current CAPF offering with the centre. Since CAPF shares its General Studies, essay and reasoning base with CDS, the CDS Virat Offline programme covers a large part of the written preparation.</div>';
+  }
+  h+='<div class="tip tip-amber">Fee includes Registration (₹5,000 · ₹10,000 for the 18-month Foundation) + Security Deposit ₹1,000 + Books ₹2,165 + Infrastructure Fee. No-cost EMI applies from 13 March onwards.</div>';
+ }
+ h+='<div class="sechead">Programme comparison</div>'+
+ '<table class="tbl-navy"><tr><th>Programme</th><th>Duration</th><th>For</th><th>Lectures</th><th>Teaching Hrs</th><th>Mocks</th><th>Valid till</th></tr>'+
+ '<tr><td><b>NDA Foundation</b></td><td>18 Months</td><td>10+2 appearing</td><td class="num">~1100</td><td class="hrs">1600+</td><td class="num">15–16</td><td>NDA 2, 2027</td></tr>'+
+ '<tr><td><b>NDA Shaurya</b></td><td>6 Months</td><td>10+2 passed</td><td class="num">200–250</td><td class="hrs">600+</td><td class="num">7–8 / yr</td><td>NDA 2, 2026</td></tr>'+
+ '<tr><td><b>CDS Virat</b> (CDS + AFCAT)</td><td>6 Months</td><td>Graduates</td><td class="num">200–250</td><td class="hrs">600+</td><td class="num">7–8 / yr</td><td>CDS 2, 2026</td></tr>'+
+ '<tr><td><b>Paramveer Mahapack</b></td><td>Agniveer 2026</td><td>10th / 12th · Army &amp; AF</td><td colspan="2">Sikar only</td><td>—</td><td>2026</td></tr>'+
+ '<tr class="total"><td>All programmes</td><td colspan="2">6 days a week · 3 lectures a day</td><td class="num" colspan="2">Smart classrooms + SSB ground</td><td class="num" colspan="2">All India Rank tests</td></tr></table>';
+
+ h+='<div class="sechead" style="color:#c22740">AFCAT — exam at a glance</div>'+
+ '<table class="tbl-red"><tr><th>Field</th><th>Detail</th></tr>'+
+ '<tr><td>Exam name</td><td>Air Force Common Admission Test (AFCAT)</td></tr>'+
+ '<tr><td>Conducted by</td><td>Indian Air Force</td></tr>'+
+ '<tr><td>Frequency</td><td class="num">Twice every year</td></tr>'+
+ '<tr><td>Notification</td><td>December and May</td></tr>'+
+ '<tr><td>Exam months</td><td class="num">February and August</td></tr>'+
+ '<tr><td>Subjects</td><td>English · General Awareness · Reasoning &amp; Military Aptitude Test · Numerical Aptitude</td></tr>'+
+ '<tr><td>Selection process</td><td class="num">Written → AFSB / SSB → Medical → Air Force Academy</td></tr></table>'+
+ '<div class="tip tip-blue">AFCAT is prepared alongside CDS in the same CDS Virat Offline classroom — the same faculty and structure support both examinations.</div>';
+
+ h+='<div class="sechead">What the student gets</div><div class="feat3">'+
+ '<div class="fcard"><div class="ft g">🏫 At the Centre</div><ul>'+
+ '<li>Smart classrooms at every centre</li>'+
+ '<li>Dedicated offline doubt room — daily access</li>'+
+ '<li>SSB ground — weekly activity</li>'+
+ '<li>Faculty who cleared UPSC / CAPF &amp; other defence exams</li>'+
+ '<li>SSB training by retired Brigadiers, Wing Commanders &amp; Colonels (DIPR trained)</li></ul></div>'+
+ '<div class="fcard"><div class="ft n">📱 App &amp; Parent Support</div><ul>'+
+ '<li>Recorded lectures — revisit anytime on the PW App</li>'+
+ '<li>Class notes as PDF — uploaded daily</li>'+
+ '<li>AI Guru — 24×7 online doubt support</li>'+
+ '<li>PW Parents App — live progress tracking</li>'+
+ '<li>2–3 PTMs per phase · Sat/Sun · online option</li></ul></div>'+
+ '<div class="fcard"><div class="ft r">📚 Study Material &amp; Tests</div><ul>'+
+ '<li>Printed modules — theory + PYQs + practice</li>'+
+ '<li>DPPs after every lecture</li>'+
+ '<li>Weekly chapter tests + fortnightly All India Rank tests</li>'+
+ '<li>ASCT in real NDA / CDS format</li>'+
+ '<li>In-class test analysis + video solutions</li></ul></div></div>';
+
+ h+='<div class="ch" style="margin-top:12px">Proof</div><div class="stars">'+
+ '<div><b>🥇 ISHAAN PACHAURI</b><span>NDA AIR 2 · Recommended from 20 SSB Bhopal · SSB Chayan Batch-16</span></div>'+
+ '<div><b>🥇 SHAMBHAVI BHARADWAJ</b><span>AIR 5 · Flying Fit · SSB Chayan B-18</span></div></div>';
+
+
+
+ h+='<details><summary>Centres, programmes and fee at every centre →</summary>'+
+ '<table class="tbl-navy"><tr><th>Centre</th><th>SSB Training</th><th>NDA Shaurya</th><th>+SSB</th><th>NDA Foundation</th><th>+SSB</th><th>CDS Virat</th><th>+SSB</th></tr>'+
+ Object.keys(CTR).map(k=>{const c=CTR[k],f=v=>v?INR(v):"—";
+  const s=c.ssb?'<span style="color:#146b3a;font-weight:800">14-Day ✔</span>':(c.ground?'<span style="color:#8a6100;font-weight:800">Ground only</span>':'<span style="color:#b02a1f">✘</span>');
+  return '<tr><td>'+c.n+'</td><td>'+s+'</td><td>'+f(c.shaurya[0])+'</td><td>'+f(c.shaurya[1])+'</td><td>'+f(c.foundation[0])+'</td><td>'+f(c.foundation[1])+'</td><td>'+f(c.cds[0])+'</td><td>'+f(c.cds[1])+'</td></tr>'}).join("")+
+ '<tr><td>Paramveer Mahapack — Sikar only</td><td>Agniveer ground</td><td colspan="6">₹42,500</td></tr></table></details>';
+ return h;
+}
+/* ---- Per-attempt eligibility display (dynamic DOB window per notification) ---- */
+function attWarn(){
+ const sel=document.getElementById("attSel"),out=document.getElementById("attOut");
+ if(!sel||!out||!S.cycles)return;
+ const c=S.cycles[+sel.value]; if(!c)return;
+ const fit=(S.dob>=c.from&&S.dob<=c.to), ready=(c.exam>=S.readyFrom), acadNow=(S.is12||S.is12a);
+ const eligible=fit&&ready&&(acadNow||S.c10||S.c11);
+ let html='<div class="tip '+(fit&&ready?'tip-green':'tip-amber')+'"><b>'+c.name+' Eligibility:</b> Only unmarried male/female candidates born between <b>'+dLong(c.from)+'</b> and <b>'+dLong(c.to)+'</b> are eligible.<br>';
+ html+='This student (DOB '+dmy(S.dob)+'): '+(fit?'<b style="color:#146b3a">DOB inside this window ✓</b>':'<b style="color:#b02a1f">DOB outside this window ✗</b>');
+ if(fit&&!ready)html+=' · <b style="color:#8a6100">but Class 12 is not reached by this attempt ◷</b>';
+ if(fit&&ready&&!acadNow&&(S.c10||S.c11))html+=' · <b style="color:#8a6100">eligible from Class 12 Appearing ◷</b>';
+ html+='</div>';
+ out.innerHTML=html;
+}
+/* ---- PRO: WhatsApp-ready summary ---- */
+function waSummary(){
+ if(!S||!S.name){alert("Generate the counselling plan first (Step 2 → Generate).");return}
+ const C=S.C;
+ const exLbl=c=>c.name+" ("+MONTHS_L[c.exam.getMonth()]+" exam)";
+ const track=S.ndaWin?exLbl(S.attempts[0]):(S.proj?S.proj.exam:(S.path!=="NDA"?"":""));
+ const ents=S.el.concat(S.futureEl);
+ let t="🎖️ *Defence Wallah — Counselling Summary*\n";
+ t+="Student: "+S.name+"\nDOB: "+dmy(S.dob)+" (age "+S.a.toFixed(1)+")\n";
+ t+="Recommended track: *"+S.path+"*"+(track?" — "+track:"")+"\n";
+ if(S.proj)t+="First NDA attempt: *"+S.proj.exam+"* ("+dmy(S.proj.date)+") — age at exam "+S.proj.ageAt.toFixed(1)+"\n";
+ t+="*Entries open ("+ents.length+"):*\n"+ents.map(x=>"* "+x.n+(x.note?" ("+x.note+")":"")).join("\n")+"\n";
+ // course + fee
+ const ssbOK=C.ssb;
+ if(S.path==="NDA"){
+  if(S.is12a||S.c10||S.c11){t+="*Recommended:* NDA Foundation Offline (18 Months) — "+INR(ssbOK?C.foundation[1]:C.foundation[0])+" incl. GST"+(ssbOK?" (with 14-Day Offline SSB)":"")+"\nAlso available: NDA Shaurya (6M) — "+INR(C.shaurya[0])+(ssbOK&&C.shaurya[1]?" / +SSB "+INR(C.shaurya[1]):"")+"\n";}
+  else{t+="*Recommended:* NDA Shaurya Offline (6 Months) — "+INR(C.shaurya[0])+(ssbOK&&C.shaurya[1]?" / with Offline SSB "+INR(C.shaurya[1]):"")+" incl. GST\n";}
+ }else if(S.path==="CDS"){
+  t+="*Recommended:* CDS Virat Offline (6 Months, covers CDS + AFCAT) — "+INR(C.cds[0])+(ssbOK&&C.cds[1]?" / with Offline SSB "+INR(C.cds[1]):"")+" incl. GST\n";
+ }else if(S.path==="AGNIVEER"&&C.param){
+  t+="*Recommended:* Paramveer Mahapack 2026 — "+INR(C.param)+" incl. GST (Sikar only)\n";
+ }
+ t+="Centre: "+C.n+(C.ssb?" · 14-Day Offline SSB available":"")+"\n";
+ t+="No-cost EMI available · Installments from D−7\n📞 Admissions: 8527060077\n— Defence Wallah by Physics Wallah";
+ const done=()=>alert("Summary copied! Paste it into WhatsApp to share with the parent.");
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>{prompt("Copy this summary:",t)});}
+ else prompt("Copy this summary:",t);
+}
+/* ===== DW RESULTS SNAPSHOT — separate proof block (static data, auto-computed) ===== */
+const R={
+ nda:{s25:{Sikar:[177,19],Lucknow:[356,15],Dehradun:[222,13]},a26:{Sikar:[166,22],Lucknow:[211,25],Dehradun:[136,16]}},
+ cds:{s25:{Sikar:[17,0],Lucknow:[28,3],Dehradun:[19,2]},a26:{Sikar:[59,2],Lucknow:[60,7],Dehradun:[56,2]}},
+ afcat:{a26:{Sikar:[7,4],Lucknow:[14,8],Dehradun:[5,1]}}
+};
+function rslice(k){document.querySelectorAll(".rtabs button").forEach(b=>b.classList.toggle("on",b.dataset.k===k));
+ document.querySelectorAll(".rpanel").forEach(p=>p.classList.toggle("on",p.id==="rp_"+k));}
+function renderResults(){
+ const pct=(sel,tot)=>tot?((sel/tot*100).toFixed(2)+"%"):"—";
+ const sum=o=>Object.values(o).reduce((a,v)=>[a[0]+v[0],a[1]+v[1]],[0,0]);
+ const n25=sum(R.nda.s25),n26=sum(R.nda.a26),c25=sum(R.cds.s25),c26=sum(R.cds.a26),af=sum(R.afcat.a26);
+ const ndaAll=[n25[0]+n26[0],n25[1]+n26[1]],cdsAll=[c25[0]+c26[0],c25[1]+c26[1]];
+ const grand=[ndaAll[0]+cdsAll[0]+af[0],ndaAll[1]+cdsAll[1]+af[1]];
+ const CN=["Sikar","Lucknow","Dehradun"];
+ const cSum=cn=>{let t=0,sel=0;[[R.nda.s25],[R.nda.a26],[R.cds.s25],[R.cds.a26],[R.afcat.a26]].forEach(([o])=>{t+=o[cn][0];sel+=o[cn][1]});return [t,sel];};
+ const two=(ex,label)=>{
+  let t='<table class="tbl-navy"><tr><th>Centre</th><th>Strength (Sep\u201925)</th><th>Selected</th><th>%</th><th>Strength (Apr\u201926)</th><th>Selected</th><th>%</th></tr>';
+  CN.forEach(cn=>{const a=ex.s25[cn],b=ex.a26[cn];
+   t+='<tr><td><b>'+cn+'</b></td><td>'+a[0]+'</td><td class="num">'+a[1]+'</td><td class="num">'+pct(a[1],a[0])+'</td><td>'+b[0]+'</td><td class="num">'+b[1]+'</td><td class="hrs">'+pct(b[1],b[0])+'</td></tr>';});
+  const A=sum(ex.s25),B=sum(ex.a26);
+  t+='<tr class="total"><td>Total</td><td>'+A[0]+'</td><td class="num">'+A[1]+'</td><td class="num">'+pct(A[1],A[0])+'</td><td>'+B[0]+'</td><td class="num">'+B[1]+'</td><td class="hrs">'+pct(B[1],B[0])+'</td></tr></table>';
+  return t;};
+ let h='<div class="sechead" style="color:#c22740">🏆 Defence Wallah — Selections</div>'+
+ '<div class="rtabs">'+
+ '<button class="on" data-k="total" onclick="rslice(\'total\')">Total result</button>'+
+ '<button data-k="nda" onclick="rslice(\'nda\')">NDA</button>'+
+ '<button data-k="cds" onclick="rslice(\'cds\')">CDS</button>'+
+ '<button data-k="afcat" onclick="rslice(\'afcat\')">AFCAT</button>'+
+ '<button data-k="centre" onclick="rslice(\'centre\')">Centre-wise</button></div>';
+ // TOTAL
+ h+='<div class="rpanel on" id="rp_total">'+
+ '<div class="rkpis"><div class="rk rk-navy"><b>'+grand[1]+'</b><span>total selections</span></div>'+
+ '<div class="rk rk-green"><b>'+ndaAll[1]+'</b><span>NDA selections · 2 attempts</span></div>'+
+ '<div class="rk rk-red"><b>'+pct(af[1],af[0])+'</b><span>AFCAT conversion (Apr \u201926)</span></div>'+
+ '<div class="rk rk-gold"><b>3</b><span>centres · Sikar, Lucknow, Dehradun</span></div></div>'+
+ '<div class="pinline">📌 Across 3 centres and 2 attempt cycles, '+grand[1]+' of '+grand[0]+' students ('+pct(grand[1],grand[0])+') converted a defence selection — with the NDA rate nearly doubling from '+pct(n25[1],n25[0])+' (Sep \u201925) to <b>'+pct(n26[1],n26[0])+'</b> (Apr \u201926) and AFCAT converting every second student.</div>'+
+ '<table class="tbl-navy"><tr><th>Exam</th><th>Total Strength</th><th>Total Selections</th><th>Selection %</th></tr>'+
+ '<tr><td><b>NDA</b> (Sep\u201925 + Apr\u201926)</td><td>'+ndaAll[0]+'</td><td class="num">'+ndaAll[1]+'</td><td class="hrs">'+pct(ndaAll[1],ndaAll[0])+'</td></tr>'+
+ '<tr><td><b>CDS</b> (Sep\u201925 + Apr\u201926)</td><td>'+cdsAll[0]+'</td><td class="num">'+cdsAll[1]+'</td><td class="hrs">'+pct(cdsAll[1],cdsAll[0])+'</td></tr>'+
+ '<tr><td><b>AFCAT</b> (Apr\u201926)</td><td>'+af[0]+'</td><td class="num">'+af[1]+'</td><td class="hrs">'+pct(af[1],af[0])+'</td></tr>'+
+ '<tr class="total"><td>All exams</td><td>'+grand[0]+'</td><td class="num">'+grand[1]+'</td><td class="hrs">'+pct(grand[1],grand[0])+'</td></tr></table></div>';
+ // NDA
+ h+='<div class="rpanel" id="rp_nda"><div class="rkpis">'+
+ '<div class="rk rk-navy"><b>'+ndaAll[1]+'</b><span>NDA selections</span></div>'+
+ '<div class="rk rk-green"><b>'+pct(n26[1],n26[0])+'</b><span>Apr \u201926 rate</span></div>'+
+ '<div class="rk rk-red"><b>'+pct(n25[1],n25[0])+'</b><span>Sep \u201925 rate</span></div>'+
+ '<div class="rk rk-gold"><b>25</b><span>best centre haul · Lucknow Apr \u201926</span></div></div>'+
+ '<div class="pinline">📌 One in eight DW students cleared the latest NDA attempt. Lucknow jumped from 4.21% to 11.85% in a single cycle.</div>'+two(R.nda)+'</div>';
+ // CDS
+ h+='<div class="rpanel" id="rp_cds"><div class="rkpis">'+
+ '<div class="rk rk-navy"><b>'+cdsAll[1]+'</b><span>CDS selections</span></div>'+
+ '<div class="rk rk-green"><b>'+pct(c25[1],c25[0])+'</b><span>Sep \u201925 rate</span></div>'+
+ '<div class="rk rk-red"><b>'+pct(c26[1],c26[0])+'</b><span>Apr \u201926 rate</span></div>'+
+ '<div class="rk rk-gold"><b>7</b><span>best centre haul · Lucknow Apr \u201926</span></div></div>'+
+ '<div class="pinline">📌 Lucknow leads CDS with double-digit conversion in both cycles (10.71% → 11.67%).</div>'+two(R.cds)+'</div>';
+ // AFCAT
+ const afT='<table class="tbl-red"><tr><th>Centre</th><th>Total Strength</th><th>Selected</th><th>Centre %</th></tr>'+
+  CN.map(cn=>{const v=R.afcat.a26[cn];return '<tr><td><b>'+cn+'</b></td><td>'+v[0]+'</td><td class="num">'+v[1]+'</td><td class="num">'+pct(v[1],v[0])+'</td></tr>'}).join("")+
+  '<tr><td><b>Total</b></td><td><b>'+af[0]+'</b></td><td class="num"><b>'+af[1]+'</b></td><td class="num"><b>'+pct(af[1],af[0])+'</b></td></tr></table>';
+ h+='<div class="rpanel" id="rp_afcat"><div class="rkpis">'+
+ '<div class="rk rk-navy"><b>'+af[1]+'</b><span>AFCAT selections · Apr \u201926</span></div>'+
+ '<div class="rk rk-red"><b>'+pct(af[1],af[0])+'</b><span>overall conversion</span></div>'+
+ '<div class="rk rk-green"><b>57.14%</b><span>Sikar &amp; Lucknow rate</span></div>'+
+ '<div class="rk rk-gold"><b>1st</b><span>AFCAT results cycle</span></div></div>'+
+ '<div class="pinline">📌 First AFCAT cycle: every second student converted (13 of 26). No September \u201925 AFCAT batch existed.</div>'+afT+'</div>';
+ // CENTRE
+ let ct='<table class="tbl-navy"><tr><th>Centre</th><th>Total Strength (all exams)</th><th>Total Selections</th><th>Centre %</th></tr>';
+ let best={n:"",p:0};
+ CN.forEach(cn=>{const [t,sel]=cSum(cn);const pv=sel/t*100;if(pv>best.p)best={n:cn,p:pv};
+  ct+='<tr><td><b>'+cn+'</b></td><td>'+t+'</td><td class="num">'+sel+'</td><td class="hrs">'+pct(sel,t)+'</td></tr>';});
+ ct+='</table>';
+ h+='<div class="rpanel" id="rp_centre"><div class="rkpis">'+
+ CN.map((cn,i)=>{const [t,sel]=cSum(cn);const cls=["rk-navy","rk-green","rk-gold"][i];
+  return '<div class="rk '+cls+'"><b>'+sel+'</b><span>'+cn+' · '+pct(sel,t)+'</span></div>';}).join("")+'</div>'+
+ '<div class="pinline">📌 '+best.n+' is the strongest centre by combined conversion ('+best.p.toFixed(2)+'%) across NDA, CDS and AFCAT.</div>'+ct+'</div>';
+ h+='<div class="tip tip-blue co-only" style="margin-top:8px">Counsellor note: update the R data object at the top of this script as each new attempt\u2019s numbers arrive — every KPI, table and percentage recomputes automatically.</div>';
+ document.getElementById("resOut").innerHTML=h;
+}
+renderResults();
+function fillDOB(){
+ const dd=document.getElementById("f_dd"),mm=document.getElementById("f_mm"),yy=document.getElementById("f_yy");
+ const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+ for(let i=1;i<=31;i++)dd.insertAdjacentHTML("beforeend","<option value='"+i+"'>"+String(i).padStart(2,"0")+"</option>");
+ months.forEach((m,i)=>mm.insertAdjacentHTML("beforeend","<option value='"+(i+1)+"'>"+m+"</option>"));
+ const nowY=new Date().getFullYear();
+ for(let y=nowY;y>=nowY-40;y--)yy.insertAdjacentHTML("beforeend","<option value='"+y+"'>"+y+"</option>");
+}
+fillDOB();
+autoS();
+</script>
+</body>
+</html>
