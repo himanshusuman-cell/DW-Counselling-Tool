@@ -864,8 +864,14 @@ function block6(){
    o+='<div class="tip tip-blue">'+why+(useSSB||C.ssb?'':' · 14-Day SSB Training runs at Lucknow, Dehradun and Sikar.')+'</div>';
    return o;
   };
+  const routeBox=(title,key)=>{
+   let cells='';
+   Object.keys(CTR).forEach(k=>{const c=CTR[k];if(c.ssb&&c[key]&&c[key][1]){const dArr=c[key+"D"];
+    cells+='<div><b>'+INR(c[key][1])+'</b><span>'+c.n.split(" –")[0]+(dArr&&dArr[1]?' · EBD '+INR(dArr[1]):'')+'</span></div>';}});
+   return '<div class="feebox"><div class="fb-p">'+title+'</div><div class="fb-m">14-Day Offline SSB add-on · runs at Lucknow, Dehradun &amp; Sikar — route the student to one of these centres to enrol</div><div class="inst">'+cells+'</div></div>';
+  };
   const rakBox=()=>{
-   if(!C.rakshak)return '<div class="altbox"><b>CDS + CAPF RAKSHAK Offline Foundation 2027</b> — the combined CDS + CAPF batch runs at Delhi – Janakpuri: '+INR(90000)+' (Early-bird 30% EBD '+INR(75150)+') · 28 Sep 2026 – 14 Aug 2027. To take RAKSHAK, route the student to Delhi.</div>';
+   if(!C.rakshak)return '<div class="feebox"><div class="fb-p">CDS + CAPF RAKSHAK Offline Foundation 2027</div><div class="fb-m">Delhi – Janakpuri · batch 28 Sep 2026 – 14 Aug 2027 · route the student to Delhi to enrol</div><div class="fb-a">'+INR(90000)+' <small>incl. GST</small></div><div class="fb-m" style="margin-top:5px">Early-bird (30% EBD): <b style="font-size:14px">'+INR(75150)+'</b></div></div>';
    return '<div class="feebox"><div class="fb-p">CDS + CAPF RAKSHAK Offline Foundation 2027</div><div class="fb-m">CDS + CAPF combined preparation · '+C.n+' · batch 28 Sep 2026 – 14 Aug 2027</div><div class="fb-a">'+INR(C.rakshak)+' <small>incl. GST</small></div>'+(C.rakshakD?'<div class="fb-m" style="margin-top:5px">Early-bird (30% EBD): <b style="font-size:14px">'+INR(C.rakshakD)+'</b></div>':'')+'<div class="inst"><div><b>'+INR(C.rakshak*.45)+'</b><span>1st · D−7 (45%)</span></div><div><b>'+INR(C.rakshak*.30)+'</b><span>2nd · D+42 (30%)</span></div><div><b>'+INR(C.rakshak*.25)+'</b><span>3rd · D+90 (25%)</span></div><div><b>6 mo @6%</b><span>No-cost EMI</span></div></div></div><div class="tip tip-blue">One foundation batch preparing CDS and CAPF (Assistant Commandant) together — written bases overlap heavily.</div>';
   };
   let done=false;
@@ -879,7 +885,7 @@ function block6(){
     if(C.ssb&&C.shaurya[1]){
      h+=mk("shaurya","NDA (I) Shaurya Offline 2027 + Offline SSB","6 Months · batch 16 Sep 2026 – 30 Apr 2027","NDA 1, 2027","Everything in the base course plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
     }else{
-     h+='<div class="altbox"><b>NDA (I) Shaurya Offline 2027 + Offline SSB</b> — the Offline SSB add-on runs at Lucknow, Dehradun and Sikar. To add SSB training, route the student to one of those centres.</div>';
+     h+=routeBox("NDA (I) Shaurya Offline 2027 + Offline SSB","shaurya");
     }
     done=true;
    }else{
@@ -889,7 +895,7 @@ function block6(){
     if(C.ssb&&C.shaurya[1]){
      h+=mk("shaurya","NDA (I) Shaurya Offline 2027 + Offline SSB","6 Months · batch 16 Sep 2026 – 30 Apr 2027","NDA 1, 2027","Everything in the base course plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
     }else{
-     h+='<div class="altbox"><b>NDA (I) Shaurya Offline 2027 + Offline SSB</b> — the Offline SSB add-on runs at Lucknow, Dehradun and Sikar. To add SSB training, route the student to one of those centres.</div>';
+     h+=routeBox("NDA (I) Shaurya Offline 2027 + Offline SSB","shaurya");
     }
     done=true;
    }
@@ -901,7 +907,7 @@ function block6(){
    if(C.ssb&&C.cds[1]){
     h+=mk("cds","CDS (I) Viraat + AFCAT (I) Offline 2027 SSB","6 Months · batch 28 Sep 2026 – 30 Apr 2027","CDS 1, 2027","Everything in the base course (CDS + AFCAT) plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
    }else{
-    h+='<div class="altbox"><b>CDS (I) Viraat + AFCAT (I) Offline 2027 SSB</b> — the Offline SSB add-on runs at Lucknow, Dehradun and Sikar. To add SSB training, route the student to one of those centres.</div>';
+    h+=routeBox("CDS (I) Viraat + AFCAT (I) Offline 2027 SSB","cds");
    }
    if(S.capf){
     h+='<div class="ch" style="margin-top:10px">Option 3 — CDS + CAPF combined</div>'+rakBox();
