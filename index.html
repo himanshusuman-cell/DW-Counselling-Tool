@@ -385,7 +385,7 @@ summary{cursor:pointer;font-weight:700;font-size:10.5px;color:#2c5e1a;outline:no
   </div>
   <div class="ch" style="margin-top:10px">Common objections — and the honest answer</div>
   <table><tr><th>Objection</th><th>What to say</th></tr>
-   <tr><td>"SSB toh clear hi nahi hoti"</td><td>SSB carries 900 marks — exactly the same as the written paper. It is trainable. The 14-day offline SSB programme runs at Lucknow and Dehradun, conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.</td></tr>
+   <tr><td>"SSB toh clear hi nahi hoti"</td><td>SSB carries 900 marks — exactly the same as the written paper. It is trainable. The 14-day offline SSB programme runs at Lucknow, Dehradun and Sikar, conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.</td></tr>
    <tr><td>"Medical mein reject ho gaya toh?"</td><td>Get the medical checked early, before enrollment. Height, vision and past surgery are the usual issues. Knowing early protects the family from spending two years on a closed door.</td></tr>
    <tr><td>"Fee zyada lag rahi hai"</td><td>Show the installment split and the no-cost EMI. Then show the hours: 1600+ teaching hours in the 18-month programme, 600+ in the 6-month one.</td></tr>
    <tr><td>"Agar select nahi hua toh degree?"</td><td>NDA cadets receive a B.A., B.Sc. or B.Tech degree at Khadakwasla. CDS is a graduate entry, so the degree is already in hand.</td></tr>
@@ -404,14 +404,18 @@ summary{cursor:pointer;font-weight:700;font-size:10.5px;color:#2c5e1a;outline:no
 
 <script>
 /* ================= DATA — Defence Wallah documents only ================= */
+/* Fees per the 2027-batch ERP sheet. Listing fee + 30% EBD discounted fee.
+   Shaurya batch: 16 Sep 2026 – 30 Apr 2027 (Delhi ends 20 Apr 2027).
+   CDS Viraat + AFCAT batch: 28 Sep 2026 – 30 Apr 2027. Paramveer: 16 Sep 2026 – 30 Apr 2027.
+   Foundation figures are from the earlier DW documents — NOT listed in the 2027 sheet. */
 const CTR={
- lucknow:{n:"Lucknow – Alambagh",ssb:1,shaurya:[64000,80500],foundation:[138000,158500],cds:[58500,75000],param:0},
- dehradun:{n:"Dehradun",ssb:1,shaurya:[64000,80500],foundation:[138000,158500],cds:[58500,75000],param:0},
- sikar:{n:"Sikar – Piprali Road",ssb:0,ground:1,shaurya:[60000,0],foundation:[123000,0],cds:[56000,0],param:42500},
- patna:{n:"Patna – Boring Road",ssb:0,shaurya:[60000,0],foundation:[117500,0],cds:[60000,0],param:0},
- indore:{n:"Indore – MG Road",ssb:0,shaurya:[58500,0],foundation:[113500,0],cds:[56000,0],param:0},
- pune:{n:"Pune – FC Road",ssb:0,shaurya:[65000,0],foundation:[131500,0],cds:[60000,0],param:0},
- delhi:{n:"Delhi – Janakpuri",ssb:0,shaurya:[61500,0],foundation:[117500,0],cds:[58000,0],param:0}
+ lucknow:{n:"Lucknow – Alambagh",ssb:1,shaurya:[64000,84000],shauryaD:[53440,70140],foundation:[138000,158500],cds:[58500,78000],cdsD:[48780,65130],param:0},
+ dehradun:{n:"Dehradun",ssb:1,shaurya:[65000,83000],shauryaD:[54140,69440],foundation:[138000,158500],cds:[59000,78000],cdsD:[49130,65130],param:0},
+ sikar:{n:"Sikar – Piprali Road",ssb:1,ground:1,shaurya:[60000,75000],shauryaD:[49830,63030],foundation:[123000,0],cds:[56000,71000],cdsD:[46490,59690],param:42500,paramD:35150},
+ patna:{n:"Patna – Boring Road",ssb:0,shaurya:[60000,0],shauryaD:[50100,0],foundation:[117500,0],cds:[60000,0],cdsD:[49830,0],param:0},
+ indore:{n:"Indore – MG Road",ssb:0,shaurya:[59000,0],shauryaD:[49265,0],foundation:[113500,0],cds:[57000,0],cdsD:[47325,0],param:42500,paramD:35150},
+ pune:{n:"Pune – FC Road",ssb:0,shaurya:[70000,0],shauryaD:[57775,0],foundation:[131500,0],cds:[65000,0],cdsD:[53465,0],param:0},
+ delhi:{n:"Delhi – Janakpuri",ssb:0,shaurya:[64000,0],shauryaD:[53440,0],foundation:[117500,0],cds:[59000,0],cdsD:[49265,0],param:0,rakshak:90000,rakshakD:75150}
 };
 const NDA_CUT=[["NDA I · 2025",334,699,"25%"],["NDA II · 2024",305,673,"25%"],["NDA I · 2024",291,654,"20%"],
  ["NDA II · 2023",292,656,"20%"],["NDA I · 2023",301,664,"25%"],["NDA II · 2022",316,678,"20%"],["NDA I · 2022",360,720,"25%"]];
@@ -817,11 +821,11 @@ function block5(){
  const isF=(S.nda&&(S.is12a||S.c10||S.c11));
  // Red stat band — the headline numbers
  if(isF)h+='<div class="statband"><div><b>6</b><span>Days / Week</span></div><div><b>3</b><span>Lectures / Day</span></div><div><b>1100+</b><span>Lectures</span></div><div><b>1600+</b><span>Teaching Hrs</span></div><div><b>15–16</b><span>Full Mocks</span></div></div>';
- else if(S.ag&&!S.nda&&!S.cds)h+='<div class="statband"><div><b>2026</b><span>Agniveer Cycle</span></div><div><b>1</b><span>Centre · Sikar only</span></div><div><b>PFT</b><span>Ground Training</span></div><div><b>'+INR(42500)+'</b><span>Mahapack Fee</span></div></div>';
+ else if(S.ag&&!S.nda&&!S.cds)h+='<div class="statband"><div><b>2027</b><span>Agniveer Cycle</span></div><div><b>2</b><span>Centres · Sikar &amp; Indore</span></div><div><b>PFT</b><span>Ground Training</span></div><div><b>'+INR(42500)+'</b><span>Mahapack Fee</span></div></div>';
  else h+='<div class="statband"><div><b>6</b><span>Days / Week</span></div><div><b>3</b><span>Lectures / Day</span></div><div><b>200–250</b><span>Lectures</span></div><div><b>600+</b><span>Teaching Hrs</span></div><div><b>7–8</b><span>Mocks / Year</span></div></div>';
  h+='<div class="sechead">Preparation plan at the centre</div><table class="tbl-navy"><tr><th>Parameter</th><th>Plan</th></tr>';
  if(isF)h+='<tr><td>Duration &amp; load</td><td>18 months · 6 days a week · 3 lectures a day · 90 min each · approx. <b>1100 lectures / 1600+ hours</b></td></tr><tr><td>Mock tests</td><td class="num">15–16 full-length mocks</td></tr>';
- else if(S.ag&&!S.nda&&!S.cds)h+='<tr><td>Duration</td><td>Paramveer Mahapack 2026 · offline at Sikar with a dedicated Agniveer training ground</td></tr><tr><td>Focus</td><td>Written exam plus Physical Fitness Test preparation</td></tr>';
+ else if(S.ag&&!S.nda&&!S.cds)h+='<tr><td>Duration</td><td>Paramveer Mahapack 2026 · offline at Sikar and Indore · Sikar has a dedicated Agniveer training ground</td></tr><tr><td>Focus</td><td>Written exam plus Physical Fitness Test preparation</td></tr>';
  else h+='<tr><td>Duration &amp; load</td><td>6 months · 6 days a week · 3 lectures a day · 120 min each · approx. <b>200–250 lectures / 600+ hours</b></td></tr><tr><td>Mock tests</td><td class="num">7–8 full-length mocks per year</td></tr>';
  h+='<tr><td>Batch timing</td><td>Morning 9:00 AM · Afternoon 3:30 PM · doubt lectures scheduled separately · Sunday extra lectures as required</td></tr>'+
  '<tr><td>Weekly test</td><td>After every chapter — topic-wise command check</td></tr>'+
@@ -849,13 +853,15 @@ function block6(){
    const ssbAvail=C.ssb&&p[1];
    const useSSB = forceMode==="ssb" ? ssbAvail : (forceMode==="base" ? false : ssbAvail);
    const amt=useSSB?p[1]:p[0], isF=(key==="foundation");
+   const pd=C[key+"D"], disc=pd?(useSSB?pd[1]:pd[0]):0;
    const plan=isF?[["1st · D−7",amt*.45,"45%"],["2nd · D+42",amt*.30,"30%"],["3rd · D+90",amt*.25,"25%"]]
                  :[["1st · D−7",amt*.60,"60%"],["2nd · D+30",amt*.40,"40%"]];
    let o='<div class="feebox"><div class="fb-p">'+name+'</div><div class="fb-m">'+dur+' · valid till '+valid+' · '+C.n+'</div>'+
-   '<div class="fb-a">'+INR(amt)+' <small>incl. GST'+(useSSB?' · with 14-Day Offline SSB Training':' · course only')+'</small></div><div class="inst">';
+   '<div class="fb-a">'+INR(amt)+' <small>incl. GST'+(useSSB?' · with 14-Day Offline SSB Training':' · course only')+'</small></div>'+
+   (disc?'<div class="fb-m" style="margin-top:5px">Early-bird (30% EBD): <b style="font-size:14px">'+INR(disc)+'</b></div>':'')+'<div class="inst">';
    plan.forEach(x=>{o+='<div><b>'+INR(x[1])+'</b><span>'+x[0]+' ('+x[2]+')</span></div>'});
    o+='<div><b>'+(isF?"6 mo @6%":"3 mo @4%")+'</b><span>No-cost EMI</span></div></div></div>';
-   o+='<div class="tip tip-blue">'+why+(useSSB||C.ssb?'':' · 14-Day SSB Training runs at Lucknow and Dehradun only'+(C.ground?'; Sikar has an SSB ground for weekly activity':'')+'.')+'</div>';
+   o+='<div class="tip tip-blue">'+why+(useSSB||C.ssb?'':' · 14-Day SSB Training runs at Lucknow, Dehradun and Sikar.')+'</div>';
    return o;
   };
   let done=false;
@@ -864,53 +870,59 @@ function block6(){
     h+=mk("foundation","NDA Foundation Offline","18 Months","NDA 2, 2027","1100+ lectures · 1600+ hours · 6 days a week · 15–16 full mock tests. Built for a student still in school.");
     h+='<div class="ch" style="margin-top:12px">Also available — NDA Shaurya (6 Months)</div>';
     h+='<div class="ch">Option 1</div>';
-    h+=mk("shaurya","NDA Shaurya Offline","6 Months","NDA 2, 2026","200–250 lectures · 600+ hours · 6 days a week · 7–8 full mock tests. For the nearest attempt instead of the 2027 cycle.","base");
+    h+=mk("shaurya","NDA (I) Shaurya Offline 2027","6 Months · batch 16 Sep 2026 – "+(S.ck==="delhi"?"20":"30")+" Apr 2027","NDA 1, 2027","200–250 lectures · 600+ hours · 6 days a week · 7–8 full mock tests. For the nearest attempt.","base");
     h+='<div class="ch" style="margin-top:10px">Option 2</div>';
     if(C.ssb&&C.shaurya[1]){
-     h+=mk("shaurya","NDA Shaurya Offline + Offline SSB","6 Months","NDA 2, 2026","Everything in the base course plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
+     h+=mk("shaurya","NDA (I) Shaurya Offline 2027 + Offline SSB","6 Months · batch 16 Sep 2026 – 30 Apr 2027","NDA 1, 2027","Everything in the base course plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
     }else{
-     h+='<div class="altbox"><b>NDA Shaurya Offline + Offline SSB</b> — the Offline SSB Training add-on is available at Lucknow and Dehradun only. At '+C.n+' the base NDA Shaurya Offline course runs'+(C.ground?', and Sikar has an SSB ground for weekly activity':'')+'. To add SSB training, route the student to Lucknow or Dehradun.</div>';
+     h+='<div class="altbox"><b>NDA (I) Shaurya Offline 2027 + Offline SSB</b> — the Offline SSB add-on runs at Lucknow, Dehradun and Sikar. To add SSB training, route the student to one of those centres.</div>';
     }
     done=true;
    }else{
     h+='<div class="ch">Option 1</div>';
-    h+=mk("shaurya","NDA Shaurya Offline","6 Months","NDA 2, 2026","200–250 lectures · 600+ hours · 6 days a week · 7–8 full mock tests. Fast-track for a 12th-passed student.","base");
+    h+=mk("shaurya","NDA (I) Shaurya Offline 2027","6 Months · batch 16 Sep 2026 – "+(S.ck==="delhi"?"20":"30")+" Apr 2027","NDA 1, 2027","200–250 lectures · 600+ hours · 6 days a week · 7–8 full mock tests. Fast-track for a 12th-passed student.","base");
     h+='<div class="ch" style="margin-top:10px">Option 2</div>';
     if(C.ssb&&C.shaurya[1]){
-     h+=mk("shaurya","NDA Shaurya Offline + Offline SSB","6 Months","NDA 2, 2026","Everything in the base course plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
+     h+=mk("shaurya","NDA (I) Shaurya Offline 2027 + Offline SSB","6 Months · batch 16 Sep 2026 – 30 Apr 2027","NDA 1, 2027","Everything in the base course plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
     }else{
-     h+='<div class="altbox"><b>NDA Shaurya Offline + Offline SSB</b> — the Offline SSB Training add-on is available at Lucknow and Dehradun only. At '+C.n+' the base NDA Shaurya Offline course runs'+(C.ground?', and Sikar has an SSB ground for weekly activity':'')+'. To add SSB training, route the student to Lucknow or Dehradun.</div>';
+     h+='<div class="altbox"><b>NDA (I) Shaurya Offline 2027 + Offline SSB</b> — the Offline SSB add-on runs at Lucknow, Dehradun and Sikar. To add SSB training, route the student to one of those centres.</div>';
     }
     done=true;
    }
   }
   if(S.cds&&!done){
    h+='<div class="ch">Option 1</div>';
-   h+=mk("cds","CDS Virat Offline","6 Months","CDS 2, 2026","200–250 lectures · 600+ hours · one classroom programme for CDS + AFCAT. CDS: English, General Knowledge and Mathematics (English + GK only for OTA). AFCAT: English, General Awareness, Reasoning &amp; Military Aptitude and Numerical Aptitude. The same faculty and classroom structure supports both CDS and AFCAT preparation.","base");
+   h+=mk("cds","CDS (I) Viraat + AFCAT (I) Offline 2027","6 Months · batch 28 Sep 2026 – 30 Apr 2027","CDS 1, 2027","200–250 lectures · 600+ hours · one classroom programme for CDS + AFCAT. CDS: English, General Knowledge and Mathematics (English + GK only for OTA). AFCAT: English, General Awareness, Reasoning &amp; Military Aptitude and Numerical Aptitude. The same faculty and classroom structure supports both CDS and AFCAT preparation.","base");
    h+='<div class="ch" style="margin-top:10px">Option 2</div>';
    if(C.ssb&&C.cds[1]){
-    h+=mk("cds","CDS Virat Offline + Offline SSB","6 Months","CDS 2, 2026","Everything in the base course (CDS + AFCAT) plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
+    h+=mk("cds","CDS (I) Viraat + AFCAT (I) Offline 2027 SSB","6 Months · batch 28 Sep 2026 – 30 Apr 2027","CDS 1, 2027","Everything in the base course (CDS + AFCAT) plus the 14-Day Offline SSB Training at "+C.n+", conducted by retired Brigadiers, Wing Commanders and Colonels with DIPR training.","ssb");
    }else{
-    h+='<div class="altbox"><b>CDS Virat Offline + Offline SSB</b> — the Offline SSB Training add-on is available at Lucknow and Dehradun only. At '+C.n+' the base CDS Virat Offline course runs'+(C.ground?', and Sikar has an SSB ground for weekly activity':'')+'. To add SSB training, route the student to Lucknow or Dehradun.</div>';
+    h+='<div class="altbox"><b>CDS (I) Viraat + AFCAT (I) Offline 2027 SSB</b> — the Offline SSB add-on runs at Lucknow, Dehradun and Sikar. To add SSB training, route the student to one of those centres.</div>';
    }
+   if(C.rakshak)h+='<div class="altbox"><b>Also at '+C.n.split(" –")[0]+':</b> CDS + CAPF RAKSHAK Offline Foundation 2027 — '+INR(C.rakshak)+' (EBD '+INR(C.rakshakD)+') · batch 28 Sep 2026 – 14 Aug 2027. One foundation batch preparing CDS and CAPF together.</div>';
    done=true;
   }
   if(S.ag&&!done){
    if(C.param){const a=C.param;
-    h+='<div class="feebox"><div class="fb-p">Paramveer Mahapack 2026 (Offline)</div><div class="fb-m">Agniveer 2026 · Army / Air Force · '+C.n.split(" –")[0]+'</div><div class="fb-a">'+INR(a)+' <small>incl. GST</small></div><div class="inst"><div><b>'+INR(a*.6)+'</b><span>1st · D−7 (60%)</span></div><div><b>'+INR(a*.4)+'</b><span>2nd · D+30 (40%)</span></div><div><b>3 mo @4%</b><span>No-cost EMI</span></div></div></div><div class="tip tip-blue">Paramveer Mahapack (Agniveer) is available at the Sikar centre only.</div>';
-   }else h+='<div class="altbox"><b>Note:</b> Paramveer Mahapack (Agniveer) runs at the Sikar centre only. Either route the student to Sikar, or position NDA / CDS at '+C.n+'.</div>';
+    h+='<div class="feebox"><div class="fb-p">Paramveer Mahapack 2027 (Offline)</div><div class="fb-m">Agniveer · Army / Air Force · '+C.n.split(" –")[0]+' · batch 16 Sep 2026 – 30 Apr 2027</div><div class="fb-a">'+INR(a)+' <small>incl. GST</small></div>'+(C.paramD?'<div class="fb-m" style="margin-top:5px">Early-bird (30% EBD): <b style="font-size:14px">'+INR(C.paramD)+'</b></div>':'')+'<div class="inst"><div><b>'+INR(a*.6)+'</b><span>1st · D−7 (60%)</span></div><div><b>'+INR(a*.4)+'</b><span>2nd · D+30 (40%)</span></div><div><b>3 mo @4%</b><span>No-cost EMI</span></div></div></div><div class="tip tip-blue">Paramveer Mahapack (Agniveer) is available at Sikar and Indore.</div>';
+   }else h+='<div class="altbox"><b>Note:</b> Paramveer Mahapack 2027 (Agniveer) runs at Sikar and Indore. Either route the student to one of those centres, or position NDA / CDS at '+C.n+'.</div>';
   }
   if(S.capf&&!done){
-   h+='<div class="altbox"><b>CAPF – Assistant Commandant:</b> the student is eligible for the UPSC CAPF (AC) exam. A dedicated CAPF batch is not listed in the Defence Wallah documents — confirm the current CAPF offering with the centre. Since CAPF shares its General Studies, essay and reasoning base with CDS, the CDS Virat Offline programme covers a large part of the written preparation.</div>';
+   if(C.rakshak){
+    h+='<div class="feebox"><div class="fb-p">CDS + CAPF RAKSHAK Offline Foundation 2027</div><div class="fb-m">CDS + CAPF combined preparation · '+C.n+' · batch 28 Sep 2026 – 14 Aug 2027</div><div class="fb-a">'+INR(C.rakshak)+' <small>incl. GST</small></div>'+(C.rakshakD?'<div class="fb-m" style="margin-top:5px">Early-bird (30% EBD): <b style="font-size:14px">'+INR(C.rakshakD)+'</b></div>':'')+'<div class="inst"><div><b>'+INR(C.rakshak*.45)+'</b><span>1st · D−7 (45%)</span></div><div><b>'+INR(C.rakshak*.30)+'</b><span>2nd · D+42 (30%)</span></div><div><b>'+INR(C.rakshak*.25)+'</b><span>3rd · D+90 (25%)</span></div><div><b>6 mo @6%</b><span>No-cost EMI</span></div></div></div><div class="tip tip-blue">RAKSHAK is the combined CDS + CAPF foundation batch, currently at Delhi – Janakpuri.</div>';
+   }else{
+    h+='<div class="altbox"><b>CAPF – Assistant Commandant:</b> the student is eligible for the UPSC CAPF (AC) exam. The dedicated <b>CDS + CAPF RAKSHAK Offline Foundation 2027</b> batch (₹90,000 · EBD ₹75,150) runs at Delhi – Janakpuri. Alternatively, the CDS (I) Viraat + AFCAT programme at '+C.n+' covers a large part of the written preparation.</div>';
+   }
   }
   h+='<div class="tip tip-amber">Fee includes Registration (₹5,000 · ₹10,000 for the 18-month Foundation) + Security Deposit ₹1,000 + Books ₹2,165 + Infrastructure Fee. No-cost EMI applies from 13 March onwards.</div>';
  }
  h+='<div class="sechead">Programme comparison</div>'+
  '<table class="tbl-navy"><tr><th>Programme</th><th>Duration</th><th>For</th><th>Lectures</th><th>Teaching Hrs</th><th>Mocks</th><th>Valid till</th></tr>'+
  '<tr><td><b>NDA Foundation</b></td><td>18 Months</td><td>10+2 appearing</td><td class="num">~1100</td><td class="hrs">1600+</td><td class="num">15–16</td><td>NDA 2, 2027</td></tr>'+
- '<tr><td><b>NDA Shaurya</b></td><td>6 Months</td><td>10+2 passed</td><td class="num">200–250</td><td class="hrs">600+</td><td class="num">7–8 / yr</td><td>NDA 2, 2026</td></tr>'+
- '<tr><td><b>CDS Virat</b> (CDS + AFCAT)</td><td>6 Months</td><td>Graduates</td><td class="num">200–250</td><td class="hrs">600+</td><td class="num">7–8 / yr</td><td>CDS 2, 2026</td></tr>'+
- '<tr><td><b>Paramveer Mahapack</b></td><td>Agniveer 2026</td><td>10th / 12th · Army &amp; AF</td><td colspan="2">Sikar only</td><td>—</td><td>2026</td></tr>'+
+ '<tr><td><b>NDA (I) Shaurya Offline 2027</b></td><td>6 Months</td><td>10+2 passed</td><td class="num">200–250</td><td class="hrs">600+</td><td class="num">7–8 / yr</td><td>NDA 1, 2027</td></tr>'+
+ '<tr><td><b>CDS (I) Viraat + AFCAT (I) 2027</b></td><td>6 Months</td><td>Graduates</td><td class="num">200–250</td><td class="hrs">600+</td><td class="num">7–8 / yr</td><td>CDS 1, 2027</td></tr>'+
+ '<tr><td><b>CDS + CAPF RAKSHAK Foundation 2027</b></td><td>To 14 Aug 2027</td><td>Graduates · CDS + CAPF</td><td colspan="2">Delhi – Janakpuri</td><td>—</td><td>2027</td></tr>'+
+ '<tr><td><b>Paramveer Mahapack 2027</b></td><td>Agniveer</td><td>10th / 12th · Army &amp; AF</td><td colspan="2">Sikar &amp; Indore</td><td>—</td><td>2027</td></tr>'+
  '<tr class="total"><td>All programmes</td><td colspan="2">6 days a week · 3 lectures a day</td><td class="num" colspan="2">Smart classrooms + SSB ground</td><td class="num" colspan="2">All India Rank tests</td></tr></table>';
 
  h+='<div class="sechead" style="color:#c22740">AFCAT — exam at a glance</div>'+
@@ -955,7 +967,8 @@ function block6(){
  Object.keys(CTR).map(k=>{const c=CTR[k],f=v=>v?INR(v):"—";
   const s=c.ssb?'<span style="color:#146b3a;font-weight:800">14-Day ✔</span>':(c.ground?'<span style="color:#8a6100;font-weight:800">Ground only</span>':'<span style="color:#b02a1f">✘</span>');
   return '<tr><td>'+c.n+'</td><td>'+s+'</td><td>'+f(c.shaurya[0])+'</td><td>'+f(c.shaurya[1])+'</td><td>'+f(c.foundation[0])+'</td><td>'+f(c.foundation[1])+'</td><td>'+f(c.cds[0])+'</td><td>'+f(c.cds[1])+'</td></tr>'}).join("")+
- '<tr><td>Paramveer Mahapack — Sikar only</td><td>Agniveer ground</td><td colspan="6">₹42,500</td></tr></table></details>';
+ '<tr><td>Paramveer Mahapack 2027 — Sikar &amp; Indore</td><td>Agniveer ground at Sikar</td><td colspan="6">₹42,500 · EBD ₹35,150</td></tr>'+
+ '<tr><td>CDS + CAPF RAKSHAK Foundation 2027 — Delhi</td><td>—</td><td colspan="6">₹90,000 · EBD ₹75,150 · till 14 Aug 2027</td></tr></table></details>';
  return h;
 }
 /* ---- Per-attempt eligibility display (dynamic DOB window per notification) ---- */
@@ -987,12 +1000,12 @@ function waSummary(){
  // course + fee
  const ssbOK=C.ssb;
  if(S.path==="NDA"){
-  if(S.is12a||S.c10||S.c11){t+="*Recommended:* NDA Foundation Offline (18 Months) — "+INR(ssbOK?C.foundation[1]:C.foundation[0])+" incl. GST"+(ssbOK?" (with 14-Day Offline SSB)":"")+"\nAlso available: NDA Shaurya (6M) — "+INR(C.shaurya[0])+(ssbOK&&C.shaurya[1]?" / +SSB "+INR(C.shaurya[1]):"")+"\n";}
-  else{t+="*Recommended:* NDA Shaurya Offline (6 Months) — "+INR(C.shaurya[0])+(ssbOK&&C.shaurya[1]?" / with Offline SSB "+INR(C.shaurya[1]):"")+" incl. GST\n";}
+  if(S.is12a||S.c10||S.c11){t+="*Recommended:* NDA Foundation Offline (18 Months) — "+INR(ssbOK?C.foundation[1]:C.foundation[0])+" incl. GST"+(ssbOK?" (with 14-Day Offline SSB)":"")+"\nAlso available: NDA (I) Shaurya Offline 2027 (6M) — "+INR(C.shaurya[0])+(ssbOK&&C.shaurya[1]?" / +SSB "+INR(C.shaurya[1]):"")+"\n";}
+  else{t+="*Recommended:* NDA (I) Shaurya Offline 2027 (6 Months) — "+INR(C.shaurya[0])+(ssbOK&&C.shaurya[1]?" / with Offline SSB "+INR(C.shaurya[1]):"")+" incl. GST\n";}
  }else if(S.path==="CDS"){
-  t+="*Recommended:* CDS Virat Offline (6 Months, covers CDS + AFCAT) — "+INR(C.cds[0])+(ssbOK&&C.cds[1]?" / with Offline SSB "+INR(C.cds[1]):"")+" incl. GST\n";
+  t+="*Recommended:* CDS (I) Viraat + AFCAT (I) Offline 2027 (6 Months) — "+INR(C.cds[0])+(ssbOK&&C.cds[1]?" / with Offline SSB "+INR(C.cds[1]):"")+" incl. GST\n";
  }else if(S.path==="AGNIVEER"&&C.param){
-  t+="*Recommended:* Paramveer Mahapack 2026 — "+INR(C.param)+" incl. GST (Sikar only)\n";
+  t+="*Recommended:* Paramveer Mahapack 2027 — "+INR(C.param)+" incl. GST (Sikar & Indore)\n";
  }
  t+="Centre: "+C.n+(C.ssb?" · 14-Day Offline SSB available":"")+"\n";
  t+="No-cost EMI available · Installments from D−7\n📞 Admissions: 8527060077\n— Defence Wallah by Physics Wallah";
