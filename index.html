@@ -475,16 +475,16 @@ function run(){
 
  /* ===== NDA NOTIFICATION DATA LAYER =====
     Each NDA notification carries its OWN official DOB window. Pattern (per current UPSC notifications):
-      NDA 1 of year Y (April exam)     → born 01 Jul (Y−19) to 01 Jul (Y−16)
-      NDA 2 of year Y (September exam) → born 01 Jan (Y−18) to 01 Jan (Y−15)
-    Verified against: NDA II 2026 → 01 Jan 2008 – 01 Jan 2011 · NDA I 2027 → 01 Jul 2008 – 01 Jul 2011.
+      NDA 1 of year Y (April exam)     → born 02 Jul (Y−19) to 01 Jul (Y−16)
+      NDA 2 of year Y (September exam) → born 02 Jan (Y−18) to 01 Jan (Y−15)
+    Verified against live UPSC-based sources: NDA I 2027 → 02 Jul 2008 – 01 Jul 2011 · NDA II 2027 → 02 Jan 2009 – 01 Jan 2012.
     To adjust a future notification, edit NDA_OVERRIDES only — the logic never changes. */
- const NDA_OVERRIDES={ /* "NDA 2 · 2026":{from:new Date(2008,0,1),to:new Date(2011,0,1)} — add per official notification if it deviates */ };
+ const NDA_OVERRIDES={ /* "NDA 2 · 2026":{from:new Date(2008,0,2),to:new Date(2011,0,1)} — add per official notification if it deviates */ };
  function ndaCycles(){
    const list=[]; const y0=now.getFullYear();
    for(let y=y0;y<=y0+7;y++){
-     list.push({name:"NDA 1 · "+y,exam:new Date(y,3,12),from:new Date(y-19,6,1),to:new Date(y-16,6,1)});
-     list.push({name:"NDA 2 · "+y,exam:new Date(y,8,13),from:new Date(y-18,0,1),to:new Date(y-15,0,1)});
+     list.push({name:"NDA 1 · "+y,exam:new Date(y,3,12),from:new Date(y-19,6,2),to:new Date(y-16,6,1)});
+     list.push({name:"NDA 2 · "+y,exam:new Date(y,8,13),from:new Date(y-18,0,2),to:new Date(y-15,0,1)});
    }
    list.forEach(c=>{const o=NDA_OVERRIDES[c.name];if(o){if(o.from)c.from=o.from;if(o.to)c.to=o.to;if(o.exam)c.exam=o.exam;}});
    return list.filter(c=>c.exam>now);
@@ -494,6 +494,9 @@ function run(){
  if(S.c11) readyFrom=new Date(now.getFullYear()+1,0,1);
  if(S.c10) readyFrom=new Date(now.getFullYear()+2,0,1);
  const dobFit=c=>dob>=c.from&&dob<=c.to;
+ // Whether the student is ACADEMICALLY IN CLASS 12 TODAY (not just "will be ready by exam time").
+ // This is the flag the Roadmap table needs so it doesn't call a school student "Eligible" outright.
+ S.nowReady=(S.is12||S.is12a);
  // All future attempts where BOTH the DOB window and academic readiness are satisfied.
  S.attempts=ndaCycles().filter(c=>dobFit(c)&&c.exam>=readyFrom);
  // Full upcoming notification list + this student's readiness, for the per-attempt roadmap & selector.
@@ -560,7 +563,7 @@ function run(){
  const a=S.a;
  // Typical age bands: 10th ~15-16, 12th ~17-18, graduate ~21+.
  if((S.q==="10")&&a>18) S.warn.push("The student is "+S.ay+" years old but marked as Class 10. Please re-check the class — at this age a candidate is usually a graduate, which opens the CDS / CAPF / AFCAT routes instead of NDA.");
- if((S.q==="12app"||S.q==="12pass")&&a>21) S.warn.push("The student is "+S.ay+" years old but marked as Class 12. NDA is only for ages 16.5–19.5, so this profile has already crossed the NDA window. If the student is in fact a graduate, select \u201cGraduate\u201d to unlock CDS / CAPF / AFCAT.");
+ if((S.q==="12app"||S.q==="12pass")&&a>21) S.warn.push("The student is "+S.ay+" years old but marked as Class 12. NDA is only for ages 16.5–19.5, so this profile has already crossed the NDA window. If the student is in fact a graduate, select “Graduate” to unlock CDS / CAPF / AFCAT.");
  if((S.grad||S.ug)&&a<18) S.warn.push("The student is "+S.ay+" years old but marked as a graduate/pursuing graduation. Please re-check — graduate entries (CDS / CAPF / AFCAT) need a completed degree, normally around age 21+.");
  // NDA education-timing rule (official: Class 11 not eligible now; must be in Class 12 to sit; 12th result needed before joining).
  if(S.q==="10") S.warn.push("NDA timing: a Class 10 student is not yet eligible to sit NDA — the exam is for Class 12 (appearing or passed). Based on the date of birth, the first attempt the student can sit is "+(S.proj?S.proj.exam+", at age "+S.proj.ageAt.toFixed(1):"after entering Class 12")+". The 18-month Foundation is built exactly for this runway.");
@@ -618,7 +621,7 @@ function block3(){
   else if(S.a>19.5 && !S.grad && !S.ug && S.a<20) why.push("At "+S.a.toFixed(1)+" the NDA window (16.5–19.5) has just closed, and there is no completed degree yet for CDS/CAPF. The graduate routes open once the degree is in hand.");
   else if(!S.grad && !S.ug && S.a>19.5) why.push("The NDA window (16.5–19.5) has passed and the student is not a graduate, so CDS / CAPF / AFCAT are not open yet. Agniveer needs age 17.5–23"+(S.a>23?" — also crossed":"")+". A completed degree would open the officer-after-graduation routes.");
   if(S.q==="10"&&S.a>18) why.push("The class was marked as Class 10 but the age suggests otherwise — please re-check the qualification.");
-  if(!why.length) why.push("Re-check the date of birth and qualification. Every NDA notification has its own official DOB window (e.g. NDA II 2026: 01 January 2008 – 01 January 2011) and this DOB fits none of the upcoming windows. Agniveer needs age 17.5–23. CDS / CAPF need a completed (or final-year) degree.");
+  if(!why.length) why.push("Re-check the date of birth and qualification. Every NDA notification has its own official DOB window (e.g. NDA II 2027: 02 January 2009 – 01 January 2012) and this DOB fits none of the upcoming windows. Agniveer needs age 17.5–23. CDS / CAPF need a completed (or final-year) degree.");
   return h+warnHTML+'<div class="tip tip-amber">⚠ <b>No entry matches this profile right now.</b><ul class="dl" style="margin-top:4px">'+why.map(w=>'<li>'+w+'</li>').join("")+'</ul></div>';
  }
  h+=warnHTML;
@@ -655,6 +658,9 @@ function block3(){
      S.cycles.slice(0,8).map((c,i)=>'<option value="'+i+'"'+(c.name===tgt.name?' selected':'')+'>'+c.name+'</option>').join('')+
      '</select><div id="attOut" style="margin-top:6px"></div>';
   // ---- Roadmap: every upcoming attempt with ITS OWN official DOB window + status ----
+  // Fixed: a school (Class 10/11) student whose DOB fits a window must show "Future", never
+  // a flat "Eligible", even if that attempt's exam date is after readyFrom — readyFrom only
+  // guards which cycles CAN be reached, not whether the student is in Class 12 today.
   h+='<div class="ch" style="margin-top:12px">NDA roadmap — every upcoming notification with its own DOB window</div>'+
      '<table class="tbl-navy"><tr><th>Attempt</th><th>Exam (indicative)</th><th>Official DOB window</th><th>Status for this student</th></tr>';
   let anyElig=false;
@@ -662,9 +668,18 @@ function block3(){
     const fit=(S.dob>=c.from&&S.dob<=c.to), ready=(c.exam>=S.readyFrom);
     const elig=fit&&ready; if(elig)anyElig=true;
     let st, why="";
-    if(elig){st='<span style="color:#146b3a;font-weight:900">✓ Eligible</span>';}
-    else if(!fit){st='<span style="color:#b02a1f;font-weight:900">✗ Not Eligible</span>';why='DOB outside this notification\'s window';}
-    else {st='<span style="color:#8a6100;font-weight:900">◷ Not yet</span>';why='Class 12 not reached by this attempt';}
+    if(elig&&S.nowReady){
+      st='<span style="color:#146b3a;font-weight:900">✓ Eligible</span>';
+    } else if(elig&&!S.nowReady){
+      st='<span style="color:#8a6100;font-weight:900">◷ Future — eligible from Class 12</span>';
+      why='DOB fits, but the student is currently Class '+(S.c10?'10':'11')+' — opens once Class 12 is reached';
+    } else if(!fit){
+      st='<span style="color:#b02a1f;font-weight:900">✗ Not Eligible</span>';
+      why='DOB outside this notification\'s window';
+    } else {
+      st='<span style="color:#8a6100;font-weight:900">◷ Not yet</span>';
+      why='Class 12 not reached by this attempt';
+    }
     h+='<tr><td><b>'+c.name+'</b></td><td>'+dmy(c.exam)+'</td><td>'+dLong(c.from)+' – '+dLong(c.to)+'</td><td>'+st+(why?'<br><span style="font-size:11px;color:#666">'+why+'</span>':'')+'</td></tr>';
   });
   h+='</table>';
@@ -1039,7 +1054,7 @@ function renderResults(){
  const CN=["Sikar","Lucknow","Dehradun"];
  const cSum=cn=>{let t=0,sel=0;[[R.nda.s25],[R.nda.a26],[R.cds.s25],[R.cds.a26],[R.afcat.a26]].forEach(([o])=>{t+=o[cn][0];sel+=o[cn][1]});return [t,sel];};
  const two=(ex,label)=>{
-  let t='<table class="tbl-navy"><tr><th>Centre</th><th>Strength (Sep\u201925)</th><th>Selected</th><th>%</th><th>Strength (Apr\u201926)</th><th>Selected</th><th>%</th></tr>';
+  let t='<table class="tbl-navy"><tr><th>Centre</th><th>Strength (Sep’25)</th><th>Selected</th><th>%</th><th>Strength (Apr’26)</th><th>Selected</th><th>%</th></tr>';
   CN.forEach(cn=>{const a=ex.s25[cn],b=ex.a26[cn];
    t+='<tr><td><b>'+cn+'</b></td><td>'+a[0]+'</td><td class="num">'+a[1]+'</td><td class="num">'+pct(a[1],a[0])+'</td><td>'+b[0]+'</td><td class="num">'+b[1]+'</td><td class="hrs">'+pct(b[1],b[0])+'</td></tr>';});
   const A=sum(ex.s25),B=sum(ex.a26);
@@ -1056,38 +1071,38 @@ function renderResults(){
  h+='<div class="rpanel on" id="rp_total">'+
  '<div class="rkpis"><div class="rk rk-navy"><b>'+grand[1]+'</b><span>total selections</span></div>'+
  '<div class="rk rk-green"><b>'+ndaAll[1]+'</b><span>NDA selections · 2 attempts</span></div>'+
- '<div class="rk rk-red"><b>'+pct(af[1],af[0])+'</b><span>AFCAT conversion (Apr \u201926)</span></div>'+
+ '<div class="rk rk-red"><b>'+pct(af[1],af[0])+'</b><span>AFCAT conversion (Apr ’26)</span></div>'+
  '<div class="rk rk-gold"><b>3</b><span>centres · Sikar, Lucknow, Dehradun</span></div></div>'+
- '<div class="pinline">📌 Across 3 centres and 2 attempt cycles, '+grand[1]+' of '+grand[0]+' students ('+pct(grand[1],grand[0])+') converted a defence selection — with the NDA rate nearly doubling from '+pct(n25[1],n25[0])+' (Sep \u201925) to <b>'+pct(n26[1],n26[0])+'</b> (Apr \u201926) and AFCAT converting every second student.</div>'+
+ '<div class="pinline">📌 Across 3 centres and 2 attempt cycles, '+grand[1]+' of '+grand[0]+' students ('+pct(grand[1],grand[0])+') converted a defence selection — with the NDA rate nearly doubling from '+pct(n25[1],n25[0])+' (Sep ’25) to <b>'+pct(n26[1],n26[0])+'</b> (Apr ’26) and AFCAT converting every second student.</div>'+
  '<table class="tbl-navy"><tr><th>Exam</th><th>Total Strength</th><th>Total Selections</th><th>Selection %</th></tr>'+
- '<tr><td><b>NDA</b> (Sep\u201925 + Apr\u201926)</td><td>'+ndaAll[0]+'</td><td class="num">'+ndaAll[1]+'</td><td class="hrs">'+pct(ndaAll[1],ndaAll[0])+'</td></tr>'+
- '<tr><td><b>CDS</b> (Sep\u201925 + Apr\u201926)</td><td>'+cdsAll[0]+'</td><td class="num">'+cdsAll[1]+'</td><td class="hrs">'+pct(cdsAll[1],cdsAll[0])+'</td></tr>'+
- '<tr><td><b>AFCAT</b> (Apr\u201926)</td><td>'+af[0]+'</td><td class="num">'+af[1]+'</td><td class="hrs">'+pct(af[1],af[0])+'</td></tr>'+
+ '<tr><td><b>NDA</b> (Sep’25 + Apr’26)</td><td>'+ndaAll[0]+'</td><td class="num">'+ndaAll[1]+'</td><td class="hrs">'+pct(ndaAll[1],ndaAll[0])+'</td></tr>'+
+ '<tr><td><b>CDS</b> (Sep’25 + Apr’26)</td><td>'+cdsAll[0]+'</td><td class="num">'+cdsAll[1]+'</td><td class="hrs">'+pct(cdsAll[1],cdsAll[0])+'</td></tr>'+
+ '<tr><td><b>AFCAT</b> (Apr’26)</td><td>'+af[0]+'</td><td class="num">'+af[1]+'</td><td class="hrs">'+pct(af[1],af[0])+'</td></tr>'+
  '<tr class="total"><td>All exams</td><td>'+grand[0]+'</td><td class="num">'+grand[1]+'</td><td class="hrs">'+pct(grand[1],grand[0])+'</td></tr></table></div>';
  // NDA
  h+='<div class="rpanel" id="rp_nda"><div class="rkpis">'+
  '<div class="rk rk-navy"><b>'+ndaAll[1]+'</b><span>NDA selections</span></div>'+
- '<div class="rk rk-green"><b>'+pct(n26[1],n26[0])+'</b><span>Apr \u201926 rate</span></div>'+
- '<div class="rk rk-red"><b>'+pct(n25[1],n25[0])+'</b><span>Sep \u201925 rate</span></div>'+
- '<div class="rk rk-gold"><b>25</b><span>best centre haul · Lucknow Apr \u201926</span></div></div>'+
+ '<div class="rk rk-green"><b>'+pct(n26[1],n26[0])+'</b><span>Apr ’26 rate</span></div>'+
+ '<div class="rk rk-red"><b>'+pct(n25[1],n25[0])+'</b><span>Sep ’25 rate</span></div>'+
+ '<div class="rk rk-gold"><b>25</b><span>best centre haul · Lucknow Apr ’26</span></div></div>'+
  '<div class="pinline">📌 One in eight DW students cleared the latest NDA attempt. Lucknow jumped from 4.21% to 11.85% in a single cycle.</div>'+two(R.nda)+'</div>';
  // CDS
  h+='<div class="rpanel" id="rp_cds"><div class="rkpis">'+
  '<div class="rk rk-navy"><b>'+cdsAll[1]+'</b><span>CDS selections</span></div>'+
- '<div class="rk rk-green"><b>'+pct(c25[1],c25[0])+'</b><span>Sep \u201925 rate</span></div>'+
- '<div class="rk rk-red"><b>'+pct(c26[1],c26[0])+'</b><span>Apr \u201926 rate</span></div>'+
- '<div class="rk rk-gold"><b>7</b><span>best centre haul · Lucknow Apr \u201926</span></div></div>'+
+ '<div class="rk rk-green"><b>'+pct(c25[1],c25[0])+'</b><span>Sep ’25 rate</span></div>'+
+ '<div class="rk rk-red"><b>'+pct(c26[1],c26[0])+'</b><span>Apr ’26 rate</span></div>'+
+ '<div class="rk rk-gold"><b>7</b><span>best centre haul · Lucknow Apr ’26</span></div></div>'+
  '<div class="pinline">📌 Lucknow leads CDS with double-digit conversion in both cycles (10.71% → 11.67%).</div>'+two(R.cds)+'</div>';
  // AFCAT
  const afT='<table class="tbl-red"><tr><th>Centre</th><th>Total Strength</th><th>Selected</th><th>Centre %</th></tr>'+
   CN.map(cn=>{const v=R.afcat.a26[cn];return '<tr><td><b>'+cn+'</b></td><td>'+v[0]+'</td><td class="num">'+v[1]+'</td><td class="num">'+pct(v[1],v[0])+'</td></tr>'}).join("")+
   '<tr><td><b>Total</b></td><td><b>'+af[0]+'</b></td><td class="num"><b>'+af[1]+'</b></td><td class="num"><b>'+pct(af[1],af[0])+'</b></td></tr></table>';
  h+='<div class="rpanel" id="rp_afcat"><div class="rkpis">'+
- '<div class="rk rk-navy"><b>'+af[1]+'</b><span>AFCAT selections · Apr \u201926</span></div>'+
+ '<div class="rk rk-navy"><b>'+af[1]+'</b><span>AFCAT selections · Apr ’26</span></div>'+
  '<div class="rk rk-red"><b>'+pct(af[1],af[0])+'</b><span>overall conversion</span></div>'+
  '<div class="rk rk-green"><b>57.14%</b><span>Sikar &amp; Lucknow rate</span></div>'+
  '<div class="rk rk-gold"><b>1st</b><span>AFCAT results cycle</span></div></div>'+
- '<div class="pinline">📌 First AFCAT cycle: every second student converted (13 of 26). No September \u201925 AFCAT batch existed.</div>'+afT+'</div>';
+ '<div class="pinline">📌 First AFCAT cycle: every second student converted (13 of 26). No September ’25 AFCAT batch existed.</div>'+afT+'</div>';
  // CENTRE
  let ct='<table class="tbl-navy"><tr><th>Centre</th><th>Total Strength (all exams)</th><th>Total Selections</th><th>Centre %</th></tr>';
  let best={n:"",p:0};
@@ -1098,7 +1113,7 @@ function renderResults(){
  CN.map((cn,i)=>{const [t,sel]=cSum(cn);const cls=["rk-navy","rk-green","rk-gold"][i];
   return '<div class="rk '+cls+'"><b>'+sel+'</b><span>'+cn+' · '+pct(sel,t)+'</span></div>';}).join("")+'</div>'+
  '<div class="pinline">📌 '+best.n+' is the strongest centre by combined conversion ('+best.p.toFixed(2)+'%) across NDA, CDS and AFCAT.</div>'+ct+'</div>';
- h+='<div class="tip tip-blue co-only" style="margin-top:8px">Counsellor note: update the R data object at the top of this script as each new attempt\u2019s numbers arrive — every KPI, table and percentage recomputes automatically.</div>';
+ h+='<div class="tip tip-blue co-only" style="margin-top:8px">Counsellor note: update the R data object at the top of this script as each new attempt’s numbers arrive — every KPI, table and percentage recomputes automatically.</div>';
  document.getElementById("resOut").innerHTML=h;
 }
 renderResults();
